@@ -14,6 +14,10 @@
 
 - [Brief](https://docs.google.com/document/d/1TGqOX28Z0HqW1wmKCUP5-6S3yrOWc-r1UuKn6xWX6aQ/edit)
 
+- [Backend](https://github.com/issa097/masterpice) 
+- [organization](https://github.com/Richesses-de-la-Riviera/Richesses-de-la-Riviera)
+  
+
 # Technologies used
 
 - React
