@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 const UserController = require("../controlers/UserControler");
 const authentication = require("../middlewares/authMiddleware");
+const uploadImg = require("../middlewares/MulterMiddlewares");
+
 
 //register/login
 router.post("/register", UserController.newUser);
 router.post("/login", UserController.loginUser);
 router.post("/logout",authentication.authenticateToken, UserController.logout);
+router.post("/loginAdmin", UserController.loginAdmin);
 
 //token decoding
 router.post("/decode", UserController.decode);

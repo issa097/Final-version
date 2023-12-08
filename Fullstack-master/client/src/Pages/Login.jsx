@@ -91,7 +91,7 @@ const LoginForm = () => {
             <p className="text-sm mt-10 text-white">
               Don't have an account{" "}
               <Link
-                to="/regestier"
+                to="/register"
                 className="text-white font-semibold underline ml-1"
               >
                 Register here{" "}
