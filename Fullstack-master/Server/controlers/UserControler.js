@@ -41,6 +41,40 @@ const getUser = async (req, res) => {
   }
 };
 
+const updatePassword = async (req, res) => {
+  const user_id = req.user;
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    // Retrieve the user from the database using the modified method
+    const user = await User.getUserById(user_id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the current password provided matches the stored password
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Current password is incorrect" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
+    const result = await User.updatePassword(user_id, hashedPassword);
+
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 const decode = (req, res) => {
   const { token } = req.body;
   try {
@@ -227,4 +261,5 @@ module.exports = {
   getUserProfile,
   logout,
   loginAdmin,
+  updatePassword
 };

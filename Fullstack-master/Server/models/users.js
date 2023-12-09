@@ -6,6 +6,12 @@ const bcrypt = require("bcrypt");
 function getAllData() {
   return db.query("SELECT * FROM users  WHERE is_deleted=false");
 }
+const getUserById = async (user_id) => {
+  const queryText = 'SELECT * FROM users WHERE user_id = $1';
+  const values = [user_id];
+  const result = await db.query(queryText, values);
+  return result.rows[0]; // Assuming user_id is unique, so only one row is expected
+};
 function getUser(user_id) {
   const queryText =
     "SELECT * FROM users WHERE user_id = $1 AND is_deleted = false";
@@ -104,6 +110,19 @@ function getEmailAdmin(email) {
   return db.query(queryText, value);
 }
 
+
+const updatePassword = async (user_id, hashedPassword) => {
+  const queryText = `
+    UPDATE users 
+    SET 
+      password = $2
+    WHERE 
+      user_id = $1 
+    RETURNING *`;
+
+  const values = [user_id, hashedPassword];
+  return db.query(queryText, values);
+};
 async function UserProfile(user_id) {
   const queryText =
     "SELECT  workshops.workshop_name as workshop_name, workshops.workshop_dis as workshop_dis, workshops.workshop_title as workshop_title ,workshops.workshop_start as workshop_start,workshops.workshop_end as workshop_end " +
@@ -127,4 +146,6 @@ module.exports = {
   UserProfile,
   setActiveStatus,
   getEmailAdmin,
+  updatePassword,
+  getUserById
 };

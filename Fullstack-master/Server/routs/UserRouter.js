@@ -24,5 +24,6 @@ router.get("/usernn/:user_id", UserController.getUserProfile);
 router.put("/deleteuser/:id", UserController.deleteUser);
 router.put("/updateuser",authentication.authenticateToken, UserController.updateUser);
 router.post("/google", UserController.google);
+router.put('/updatepassword',authentication.authenticateToken, UserController.updatePassword);
 
 module.exports = router;
