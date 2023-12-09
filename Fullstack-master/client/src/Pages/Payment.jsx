@@ -11,6 +11,7 @@ import axios from "axios";
 import { useOrder } from "../OrderContext/OrderContext";
 import Nav from "../Components/Nav";
 import Footer from "../Components/Footer";
+import Swal from "sweetalert";
 
 // import "react-phone-number-input/style.css";
 // import GoogleSignInButton from "./GoogleSignInButton";
@@ -37,7 +38,8 @@ const PaymentForm = () => {
   const [couponCode, setCouponCode] = useState("");
   const [couponError, setCouponError] = useState(null);
   const [appliedCoupon, setAppliedCoupon] = useState(null);
-  console.log("ssssssssssss", appliedCoupon);
+  const [discountedTotal, setdiscountedTotal] = useState(null);
+  console.log("ssssssssssss", discountedTotal);
   const handleCountryChange = (event) => {
     setCountry(event.target.value);
   };
@@ -92,10 +94,10 @@ const PaymentForm = () => {
 
       if (appliedCoupon) {
         // Calculate the discounted total based on coupon
-        paymentAmount = totalPrice * appliedCoupon;
+        paymentAmount = discountedTotal;
       } else {
         // Use the original total price
-        paymentAmount = totalPrice * 100;
+        paymentAmount = totalPrice;
       }
       // Send payment information to your server using Axios
       axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
@@ -112,7 +114,7 @@ const PaymentForm = () => {
         email: userEmail.toLowerCase(),
         phone: userPhone,
         cardholder: cardholder,
-        amount: paymentAmount, // Convert to cents if needed
+        amount: paymentAmount * 100, // Convert to cents if needed
         country: country,
         state: state,
         address: address,
@@ -137,11 +139,13 @@ const PaymentForm = () => {
     try {
       const response = await axios.post("http://localhost:8000/applyCoupons", {
         code: couponCode,
+        discount_percentage: appliedCoupon,
         cart: cartData,
       });
-
+      showAlert("Coupon successful!", "success");
       setAppliedCoupon(response.data.coupon.rows[0].discount_percentage);
-      console.log("😒😒😒", response.data.coupon.rows);
+      setdiscountedTotal(response.data.discountedTotal);
+      console.log("😒😒😒", response.data.discountedTotal);
       setCouponError(null);
 
       // Update total price or apply the logic as needed
@@ -150,18 +154,21 @@ const PaymentForm = () => {
       // setTotalPrice(response.data.discountedTotal);
     } catch (error) {
       setAppliedCoupon(null);
-      setCouponError(error.response.data.error);
+      // setCouponError(error.response.data.error);
+      showAlert("Coupon Not Found", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   const showAlert = (message, icon) => {
-    alert(message, icon);
-    // Swal.fire({
-    //   title: icon === "success" ? "Success" : "Error",
-    //   text: message,
-    //   icon: icon,
-    //   confirmButtonText: "OK",
-    // });
+    // alert(message, icon);
+    Swal({
+      title: icon === "success" ? "Success" : "Error",
+      text: message,
+      icon: icon,
+      confirmButtonText: "OK",
+    });
   };
   return (
     <>
@@ -367,10 +374,6 @@ const PaymentForm = () => {
             Apply
           </button>
         </div>
-        {couponError && <p className="text-red-500">{couponError}</p>}
-        {appliedCoupon && (
-          <p className="text-green-500">Coupon applied: {appliedCoupon.code}</p>
-        )}
       </div>
     </>
   );

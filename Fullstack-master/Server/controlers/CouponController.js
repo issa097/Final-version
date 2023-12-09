@@ -2,7 +2,7 @@ const couponModel = require("../models/Coupon");
 const { calculateDiscountedTotal } = require("../models/Coupon");
 const applyCoupon = async (req, res) => {
   try {
-    const { code } = req.body;
+    const { code ,discount_percentage } = req.body;
     console.log("dd", code);
     const cart = req.body.cart;
     // Assume that 'issa' is a valid array of items (cart)
@@ -14,7 +14,7 @@ const applyCoupon = async (req, res) => {
 
     // Calculate discounted total and send it to the frontend
     const discountedTotal = calculateDiscountedTotal(
-      coupon.discount_percentage,
+      discount_percentage,
       cart
     );
     return res.status(200).json({ coupon, discountedTotal });

@@ -43,10 +43,14 @@ const deleteCoupon = async (id) => {
     throw error;
   }
 };
-const calculateDiscountedTotal = (discountPercentage, cart) => {
-  const originalTotal = cart.reduce((acc, item) => acc + item.amount, 0);
-  const discountAmount = (originalTotal * discountPercentage) / 100;
+const calculateDiscountedTotal = (discount_percentage, cart) => {
+  console.log("object", discount_percentage);
+  const originalTotal = cart.reduce((acc, item) => acc + item.price, 0);
+  const discountAmount = originalTotal * (discount_percentage) / 100;
   const discountedTotal = originalTotal - discountAmount;
+  console.log("ddddd", originalTotal, discountAmount, discountedTotal);
+  console.log("object", cart);
+
   return discountedTotal;
 };
 

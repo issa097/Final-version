@@ -42,7 +42,7 @@ const newpayment = async (req, res) => {
 
     try {
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: amount,
+        amount: parseInt(amount),
         currency: "USD",
         payment_method_types: ["card"], // Add the appropriate payment method types
         payment_method: paymentMethodId,
