@@ -51,6 +51,13 @@ const getCouponByCode = async (req, res) => {
     return res.status(200).json(getCouponByCode.rows);
   } catch (error) {}
 };
+const getCoupons = async (req, res) => {
+  const { code } = req.body;
+  try {
+    const getCouponByCode = await couponModel.getCoupons();
+    return res.status(200).json(getCouponByCode.rows);
+  } catch (error) {}
+};
 const getCouponByid = async (req, res) => {
   const id = req.params.id;
   try {
@@ -65,4 +72,5 @@ module.exports = {
   DeleteCoupon,
   getCouponByCode,
   getCouponByid,
+  getCoupons
 };

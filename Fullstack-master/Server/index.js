@@ -32,6 +32,7 @@
 //   console.log(`Example app listening on port ${port}`);
 // });
 
+require("dotenv").config();
 const express = require("express");
 const UserRouter = require("./routs/UserRouter");
 const ProductRouter = require("./routs/ProductRouter");
@@ -50,7 +51,7 @@ const CouponRouter = require("./routs/CouponRouter");
 const cors = require("cors");
 const app = express();
 const path = require("path");
-const port = 8000;
+const port = process.env.LISTEN_PORT;
 
 app.use(express.json());
 app.use(cors());

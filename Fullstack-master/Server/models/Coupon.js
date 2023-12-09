@@ -21,6 +21,15 @@ function getCouponByCode(code) {
     throw error;
   }
 }
+function getCoupons() {
+  const queryText = "SELECT * FROM coupons WHERE is_deleted = false";
+
+  try {
+    return db.query(queryText);
+  } catch (error) {
+    throw error;
+  }
+}
 function getCouponByid(id) {
   const queryText = "SELECT * FROM coupons WHERE id = $1";
   const result = [id];
@@ -46,7 +55,7 @@ const deleteCoupon = async (id) => {
 const calculateDiscountedTotal = (discount_percentage, cart) => {
   console.log("object", discount_percentage);
   const originalTotal = cart.reduce((acc, item) => acc + item.price, 0);
-  const discountAmount = originalTotal * (discount_percentage) / 100;
+  const discountAmount = (originalTotal * discount_percentage) / 100;
   const discountedTotal = originalTotal - discountAmount;
   console.log("ddddd", originalTotal, discountAmount, discountedTotal);
   console.log("object", cart);
@@ -60,4 +69,5 @@ module.exports = {
   deleteCoupon,
   calculateDiscountedTotal,
   getCouponByid,
+  getCoupons
 };

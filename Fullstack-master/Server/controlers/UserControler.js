@@ -1,6 +1,8 @@
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
-const key = "issa";
+require("dotenv").config();
+
+const key = process.env.KEY;
 
 const newUser = async (req, res) => {
   try {
