@@ -83,10 +83,6 @@ async function getImageDownloadUrl(imageName) {
 //   }
 // }
 
-
-
-
-
 function uploadImg(req, res, next) {
   try {
     upload.single("image")(req, res, async function (err) {
@@ -129,7 +125,6 @@ function uploadImg(req, res, next) {
     res.status(500).send("Error uploading image.");
   }
 }
-
 
 // async function updateImage(req, res, next) {
 //   try {
@@ -183,5 +178,4 @@ function uploadImg(req, res, next) {
 module.exports = {
   uploadImg,
   admin,
-
 };

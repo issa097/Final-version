@@ -95,21 +95,26 @@ const deleteUser = async (req, res) => {
 };
 const updateUser = async (req, res) => {
   const user_id = req.user;
-  const { username, email, password } = req.body;
-
+  const user_img = res.locals.site;
+  console.log(user_img);
+  const { username, email, phone_number, birthday } = req.body;
+  console.log(birthday);
   try {
     // تشفير كلمة المرور
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await User.updateUser(
       user_id,
       username,
       email,
-      hashedPassword
+
+      user_img,
+      phone_number,
+      birthday
     );
-    console.log(user_id, username, email, hashedPassword);
+
     return res.status(200).json(result.rows);
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };

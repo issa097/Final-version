@@ -69,18 +69,37 @@ function deleteUser(user_id) {
 //   const value = [user_id, username, email, password];
 //   return db.query(queryText, value);
 // }
-function updateUser(user_id, username, email, password) {
+function updateUser(
+  user_id,
+  username,
+  email,
+  
+  user_img,
+  phone_number,
+  birthday
+) {
   const queryText = `
     UPDATE users 
     SET 
       username = COALESCE($2, username), 
       email = COALESCE($3, email), 
-      password = COALESCE($4, password)
+     
+      user_img = COALESCE($4, user_img),
+      phone_number = COALESCE($5, phone_number),
+      birthday = COALESCE($6, birthday)
     WHERE 
       user_id = $1 
     RETURNING *`;
 
-  const values = [user_id, username, email, password];
+  const values = [
+    user_id,
+    username,
+    email,
+    
+    user_img,
+    phone_number,
+    birthday,
+  ];
   return db.query(queryText, values);
 }
 
