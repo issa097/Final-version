@@ -3,7 +3,7 @@ import axios from "axios";
 import ProductForm from "./ProductForm";
 import AddProductForm from "./AddProduct";
 import Swal from 'sweetalert';
-import BlogList from "./Pagination";
+
 
 
 function Products() {
@@ -67,7 +67,7 @@ console.log("vvvvvvvvvvvvvv",searchResults)
         console.log(response);
         Swal({
           title: 'Success!',
-          text: `Product "${editedProduct.product_name}" saved successfully.`,
+          text: `Product ${response.data[0].product_name} saved successfully.`,
           icon: 'success',
           confirmButtonText: 'OK',
         });
@@ -98,6 +98,10 @@ console.log("vvvvvvvvvvvvvv",searchResults)
   };
 
   const handleDeleteProduct = (productId) => {
+    axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
+      "token"
+    )}`;
+
     axios
       .put(`http://localhost:8000/deleteproduct/${productId}`)
       .then((response) => {

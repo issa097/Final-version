@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Statics from "./Statics";
+import swal from "sweetalert";
 
 function UserTable() {
   const [users, setUsers] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
-
+  console.log("hhhhhhhhhhhh", users);
   useEffect(() => {
     axios
       .get("http://localhost:8000/users")
@@ -20,21 +21,49 @@ function UserTable() {
       });
   }, []);
 
-  const handleDelete = (e, userId) => {
-    e.preventDefault();
-    axios
-      .put(`http://localhost:8000/deleteuser/${userId}`)
-      .then(() => {
-        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-      })
-      .catch((error) => console.error("Error deleting user:", error));
-  };
+  const handleDelete = (user_id) => {
+    // Find the user with the specified user_id
+    const userToDelete = users.find((user) => user.user_id === user_id);
 
-  const handleEdit = (e, userId) => {
-    e.preventDefault();
-    setIsEditModalOpen(true);
-    setSelectedUserId(userId);
+    // Check if the user was found
+    if (!userToDelete) {
+      console.error("User not found");
+      alert("User not found. Please try again.");
+      return;
+    }
+
+    // Determine if the user should be blocked or unblocked based on the 'is_deleted' attribute.
+    const is_deleted = userToDelete.is_deleted;
+
+    // Send a request to block/unblock the user using Axios.
+    axios
+      .put(`http://localhost:8000/deleteuser/${user_id}`)
+      .then((response) => {
+        console.log(user_id);
+        // Handle the successful response
+        if (is_deleted) {
+          // alert("User unblocked successfully");
+        } else {
+          swal({
+            title: "Done!",
+            text: "User Blocked Successfully",
+            icon: "success", // Fix the typo here
+            confirmButtonText: "OK",
+          });
+        }
+        // Update the user list (you may want to refetch it)
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error blocking/unblocking user:", error);
+        alert("Failed to block/unblock the user. Please try again.");
+      });
   };
+  // const handleEdit = (e, userId) => {
+  //   e.preventDefault();
+  //   setIsEditModalOpen(true);
+  //   setSelectedUserId(userId);
+  // };
 
   return (
     <>
@@ -55,9 +84,6 @@ function UserTable() {
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Delete
               </th>
-              <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                Edit
-              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
@@ -75,11 +101,11 @@ function UserTable() {
                       src={user.user_img}
                       alt=""
                     />
-                       <span
-      className={`absolute right-0 bottom-0 h-2 w-2 rounded-full bg-${
-        user.active ? "green" : "red"
-      }-400 ring ring-white`}
-    ></span>
+                    <span
+                      className={`absolute right-0 bottom-0 h-2 w-2 rounded-full bg-${
+                        user.active ? "green" : "red"
+                      }-400 ring ring-white`}
+                    ></span>
                     {/* <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span> */}
                   </div>
                   <div className="text-sm">
@@ -111,20 +137,10 @@ function UserTable() {
                 <td className="px-6 py-4 ">
                   <div className="flex justify-start gap-4">
                     <button
-                      className="text-black "
-                      onClick={(e) => handleDelete(e, user.id)}
+                      className="px-4 py-2 bg-[#C08261] text-white rounded-lg"
+                      onClick={() => handleDelete(user.user_id)}
                     >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="flex justify-start gap-4">
-                    <button
-                      className="text-black"
-                      onClick={(e) => handleEdit(e, user.id)}
-                    >
-                      Edit
+                      {user.is_deleted ? "Unblock" : "Block"}
                     </button>
                   </div>
                 </td>

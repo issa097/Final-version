@@ -3,6 +3,9 @@ const stripe = require("stripe")(
   "sk_test_51O8NuQEIz9ME8FdttGncSSbHQjTnx1WQRQOgD4n4T2FhfmVIZAMJ54QDgphJ7CjCAoIJ15hrWt6HwLsrRINYk1Eg008qZhBwrn"
 ); // Replace with your actual Stripe secret key
 
+// const couponModel = require("../models/Coupon");
+// const { calculateDiscountedTotal } = require("../models/Coupon");
+
 const newpayment = async (req, res) => {
   // console.log(req.body);
   const user_id = req.user;
@@ -22,6 +25,7 @@ const newpayment = async (req, res) => {
 
       // product_id,
     } = req.body;
+    // const issa = cart;
     console.log(cart);
     // console.log(product_name);
     const product_id = cart.map((item) => {
@@ -59,8 +63,7 @@ const newpayment = async (req, res) => {
           paymentMethodId,
           phone,
           amount,
-          product_id,
-
+          product_id
         );
 
         return res.status(200).json(newpayment.rows);
@@ -120,12 +123,37 @@ const deletepayment = async (req, res) => {
   }
 };
 
+// const applyCoupon = async (req, res) => {
+//   try {
+//     const { code } = req.body;
+//     console.log("dd", code);
+//     const cart = req.body.cart;
+//     // Assume that 'issa' is a valid array of items (cart)
+//     const coupon = await couponModel.getCouponByCode(code);
+
+//     if (!coupon) {
+//       return res.status(400).json({ error: "Invalid coupon code" });
+//     }
+
+//     // Calculate discounted total and send it to the frontend
+//     const discountedTotal = calculateDiscountedTotal(
+//       coupon.discount_percentage,
+//       cart
+//     );
+//     return res.status(200).json({ coupon, discountedTotal });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+
 module.exports = {
   newpayment,
   getpayments,
   getpaymentidUser,
   getpaymentid,
   deletepayment,
+  // applyCoupon,
 };
 
 // cros

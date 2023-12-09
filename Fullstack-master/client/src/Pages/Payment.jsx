@@ -33,6 +33,11 @@ const PaymentForm = () => {
   const [state, setState] = useState("");
   const { cartData } = useOrder();
   console.log("object", cartData);
+
+  const [couponCode, setCouponCode] = useState("");
+  const [couponError, setCouponError] = useState(null);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  console.log("ssssssssssss", appliedCoupon);
   const handleCountryChange = (event) => {
     setCountry(event.target.value);
   };
@@ -82,6 +87,16 @@ const PaymentForm = () => {
       console.log("paymentMethod");
       console.log(paymentMethod);
       console.log("paymentMethod");
+
+      let paymentAmount;
+
+      if (appliedCoupon) {
+        // Calculate the discounted total based on coupon
+        paymentAmount = totalPrice * appliedCoupon;
+      } else {
+        // Use the original total price
+        paymentAmount = totalPrice * 100;
+      }
       // Send payment information to your server using Axios
       axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
         "token"
@@ -97,7 +112,7 @@ const PaymentForm = () => {
         email: userEmail.toLowerCase(),
         phone: userPhone,
         cardholder: cardholder,
-        amount: totalPrice * 100, // Convert to cents if needed
+        amount: paymentAmount, // Convert to cents if needed
         country: country,
         state: state,
         address: address,
@@ -118,6 +133,27 @@ const PaymentForm = () => {
     }
   };
 
+  const applyCoupon = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/applyCoupons", {
+        code: couponCode,
+        cart: cartData,
+      });
+
+      setAppliedCoupon(response.data.coupon.rows[0].discount_percentage);
+      console.log("😒😒😒", response.data.coupon.rows);
+      setCouponError(null);
+
+      // Update total price or apply the logic as needed
+      // You might want to store the discounted total in state
+      // and use it in your payment request.
+      // setTotalPrice(response.data.discountedTotal);
+    } catch (error) {
+      setAppliedCoupon(null);
+      setCouponError(error.response.data.error);
+    }
+  };
+
   const showAlert = (message, icon) => {
     alert(message, icon);
     // Swal.fire({
@@ -131,7 +167,7 @@ const PaymentForm = () => {
     <>
       {true ? (
         <>
-        <Nav />
+          <Nav />
           <Card className="my-10 w-8/12 mx-auto bg-gray-50 px-4 pt-8 lg:mt-5">
             <p className="text-xl font-medium">Payment Details</p>
             <p className="text-gray-400">
@@ -309,6 +345,33 @@ const PaymentForm = () => {
           <p className="text-center">No Products in your Cart</p>
         </Card>
       )}
+
+      {/* Coupon input and apply button */}
+      <div className="mt-4">
+        <label htmlFor="coupon" className="block text-sm font-medium">
+          Coupon Code
+        </label>
+        <div className="flex">
+          <input
+            type="text"
+            id="coupon"
+            name="coupon"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+            className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+          />
+          <button
+            onClick={applyCoupon}
+            className="ml-2 px-4 py-2 bg-gray-800 text-white"
+          >
+            Apply
+          </button>
+        </div>
+        {couponError && <p className="text-red-500">{couponError}</p>}
+        {appliedCoupon && (
+          <p className="text-green-500">Coupon applied: {appliedCoupon.code}</p>
+        )}
+      </div>
     </>
   );
 };

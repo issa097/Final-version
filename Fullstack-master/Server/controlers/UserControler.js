@@ -136,6 +136,7 @@ const loginAdmin = async (req, res) => {
           { user_id: user.user_id, username: user.username, role: user.role }, // Payload
           key
         );
+        await User.setActiveStatus(user.user_id, true);
 
         // Check the role before responding
         if (user.role === "user") {
@@ -182,9 +183,10 @@ const google = async (req, res) => {
         const user = existUser.rows[0];
 
         const token = jwt.sign(
-          { user_id: user.user_id, username: user.username },
+          { user_id: user.user_id, username: user.username, role: user.role },
           key
         );
+        await User.setActiveStatus(user.user_id, true);
 
         return res.json({ user, token });
       } catch (error) {

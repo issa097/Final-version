@@ -81,7 +81,7 @@ const updateContact = async (req, res) => {
 
 
 
-const addContactMessage = async (req, res) => {
+const   addContactMessage = async (req, res) => {
   const user_id = req.user;
   const role = req.role;
   console.log(req.role);
@@ -121,7 +121,7 @@ const getUserMessages = async (req, res) => {
 //   }
 // };
 
-const getAdminMessages = async (req, res) => {
+const   getAdminMessages = async (req, res) => {
   try {
     const result = await Contact.getAllAdminMessages();
     console.log(result);

@@ -3,8 +3,8 @@ import UserTable from "./UserTable";
 import Products from "./Products";
 import Blog from "./Blog";
 import axios from "axios";
+import Contactus from "./Contactus";
 // import Payments from './Payments';
-// import Cards from './Cards';
 // import Settings from './Settings';
 //
 function SideBar() {
@@ -14,7 +14,7 @@ function SideBar() {
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
   };
-  console.log("first ", activeItem);
+  console.log(activeItem);
 
   const renderContent = () => {
     switch (activeItem) {
@@ -24,10 +24,10 @@ function SideBar() {
         return <Products />;
       case "Blog":
         return <Blog />;
-      // case 'payments':
-      //   return <Payments />;
-      // case 'cards':
-      //   return <Cards />;
+      // case 'payment':
+      //   return <payment />;
+      case 'contactus':
+        return <Contactus />;
       // case 'settings':
       //   return <Settings />;
       // default:
@@ -106,7 +106,7 @@ function SideBar() {
               </svg>
             </li>
             <li
-              className={`relative flex cursor-pointer space-x-2 rounded-md py-4 px-10 text-gray-300 hover:bg-slate-600 ${
+              className={`relative flex cursor-pointer space-x-2 rounded-md  py-4 px-10 text-gray-300 hover:bg-slate-600 ${
                 activeItem === "Blogs" ? "bg-slate-600" : ""
               }`}
               onClick={() => handleItemClick("Blog")}
@@ -131,10 +131,11 @@ function SideBar() {
             </li>
             <li
               className={`relative flex cursor-pointer space-x-2 rounded-md py-4 px-10 text-gray-300 hover:bg-slate-600 ${
-                activeItem === "payments" ? "bg-slate-600" : ""
+                activeItem === "payment" ? "bg-slate-600" : ""
               }`}
-              onClick={() => handleItemClick("payments")}
+              onClick={() => handleItemClick("payment")}
             >
+      
               <span className="text-2xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -160,13 +161,13 @@ function SideBar() {
                   <path fill="none" d="M0 0h36v36H0z" />
                 </svg>
               </span>
-              <span className="">Payments</span>
+              <span className="">Payment</span>
             </li>
             <li
               className={`relative flex cursor-pointer space-x-2 rounded-md py-4 px-10 text-gray-300 hover:bg-slate-600 ${
-                activeItem === "cards" ? "bg-slate-600" : ""
+                activeItem === "contactus" ? "bg-slate-600" : ""
               }`}
-              onClick={() => handleItemClick("cards")}
+              onClick={() => handleItemClick("contactus")}
             >
               <span>
                 <svg
@@ -189,7 +190,7 @@ function SideBar() {
                   />
                 </svg>
               </span>
-              <span className="">Cards</span>
+              <span className="">Contact</span>
             </li>
             <li
               className={`relative flex cursor-pointer space-x-2 rounded-md py-4 px-10 text-gray-300 hover:bg-slate-600 ${

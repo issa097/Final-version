@@ -45,6 +45,7 @@ const workshop_bookings = require("./routs/workshop_bookingsRouter");
 const RatingRouter = require("./routs/RatingRouter");
 const CartRouter = require("./routs/CartRouter");
 const WishlisRoutert = require("./routs/WishlisRoutert");
+const CouponRouter = require("./routs/CouponRouter");
 
 const cors = require("cors");
 const app = express();
@@ -65,6 +66,7 @@ app.use(workshop_bookings);
 app.use(RatingRouter);
 app.use(CartRouter);
 app.use(WishlisRoutert);
+app.use(CouponRouter);
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
