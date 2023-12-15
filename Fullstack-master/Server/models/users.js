@@ -3,11 +3,21 @@ const jwt = require("jsonwebtoken");
 const key = "issa";
 const bcrypt = require("bcrypt");
 
-function getAllData() {
-  return db.query("SELECT * FROM users  WHERE is_deleted=false");
+// function getAllData() {
+//   return db.query("SELECT * FROM users  WHERE is_deleted=false");
+// }
+
+function getAllData(limit, offset) {
+  const query = `
+    SELECT * FROM users 
+    WHERE is_deleted = false
+    LIMIT $1 OFFSET $2
+  `;
+  console.log("I am here ", limit, offset);
+  return db.query(query, [limit, offset]);
 }
 const getUserById = async (user_id) => {
-  const queryText = 'SELECT * FROM users WHERE user_id = $1';
+  const queryText = "SELECT * FROM users WHERE user_id = $1";
   const values = [user_id];
   const result = await db.query(queryText, values);
   return result.rows[0]; // Assuming user_id is unique, so only one row is expected
@@ -44,7 +54,12 @@ const setActiveStatus = async (user_id, active) => {
   }
 };
 
-// وتُستخدم الدالة كالتالي:
+const getTotalCounts = async () => {
+  const result = await db.query(
+    "SELECT COUNT(*) FROM users WHERE is_deleted = false"
+  );
+  return result.rows[0].count;
+};
 
 function newUser(username, email, password, role, user_img) {
   // const user_img = picture;
@@ -73,7 +88,7 @@ function updateUser(
   user_id,
   username,
   email,
-  
+
   user_img,
   phone_number,
   birthday
@@ -91,15 +106,7 @@ function updateUser(
       user_id = $1 
     RETURNING *`;
 
-  const values = [
-    user_id,
-    username,
-    email,
-    
-    user_img,
-    phone_number,
-    birthday,
-  ];
+  const values = [user_id, username, email, user_img, phone_number, birthday];
   return db.query(queryText, values);
 }
 
@@ -128,7 +135,6 @@ function getEmailAdmin(email) {
   const value = [email];
   return db.query(queryText, value);
 }
-
 
 const updatePassword = async (user_id, hashedPassword) => {
   const queryText = `
@@ -166,5 +172,6 @@ module.exports = {
   setActiveStatus,
   getEmailAdmin,
   updatePassword,
-  getUserById
+  getUserById,
+  getTotalCounts,
 };

@@ -14,7 +14,7 @@ router.post("/loginAdmin", UserController.loginAdmin);
 router.post("/decode", UserController.decode);
 
 //users/user:id
-router.get("/users", UserController.getUsers);
+router.get("/users/:page/:limit", UserController.getUsers);
 router.get("/user", authentication.authenticateToken, UserController.getUser);
 
 router.get("/usernn/:user_id", UserController.getUserProfile);

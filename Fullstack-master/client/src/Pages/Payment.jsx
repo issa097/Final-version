@@ -134,7 +134,11 @@ const PaymentForm = () => {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    if (appliedCoupon !== null) {
+      applyCoupon();
+    }
+  }, [appliedCoupon]);
   const applyCoupon = async () => {
     try {
       const response = await axios.post("http://localhost:8000/applyCoupons", {
@@ -142,10 +146,12 @@ const PaymentForm = () => {
         discount_percentage: appliedCoupon,
         cart: cartData,
       });
-      showAlert("Coupon successful!", "success");
-      setAppliedCoupon(response.data.coupon.rows[0].discount_percentage);
       setdiscountedTotal(response.data.discountedTotal);
+
+      setAppliedCoupon(response.data.coupon.rows[0].discount_percentage);
       console.log("😒😒😒", response.data.discountedTotal);
+      showAlert("Coupon successful!", "success");
+
       setCouponError(null);
 
       // Update total price or apply the logic as needed

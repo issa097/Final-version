@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductForm from "./ProductForm";
 import AddProductForm from "./AddProduct";
-import Swal from 'sweetalert';
-
-
+import Swal from "sweetalert";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -12,28 +10,38 @@ function Products() {
   const [isAddProductFormVisible, setIsAddProductFormVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingProduct, setEditingProduct] = useState(null);
-  const [pageNumber, setPageNumber] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [limit, setlimit] = useState(0);
+  console.log("ddddddddd", limit);
   // const [blogs, setBlogs] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setCurrentPage] = useState(1);
-console.log("vvvvvvvvvvvvvv",searchResults)
+  console.log("vvvvvvvvvvvvvv", searchResults);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/products/${page}/2`);
-        const {  totalPages, pagination } = response.data;
-        const result = response.data.result.rows
+        const response = await axios.get(
+          `http://localhost:8000/products/${page}/${limit}`
+        );
+        const { totalPages, pagination } = response.data;
+
+        const result = response.data.result.rows;
+        // const limit = response.data.pagination;
+        // console.log("ssssssssssssssssssss", limit);
+
         setProducts(result);
         setTotalPages(totalPages);
+        setlimit(response.data.limit);
         console.log("result", result);
         console.log("totalPages", totalPages);
         console.log("pagination", pagination);
+        console.log("limit", limit);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
-    fetchData()
-  }, [page]);
+    fetchData();
+  }, [page,limit]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -44,11 +52,10 @@ console.log("vvvvvvvvvvvvvv",searchResults)
       product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchResults(filteredProducts);
-    setPageNumber(0); 
+    setPageNumber(1);
   };
 
   const handleEditProduct = (product) => {
-
     setEditingProduct(product);
   };
 
@@ -66,24 +73,23 @@ console.log("vvvvvvvvvvvvvv",searchResults)
       .then((response) => {
         console.log(response);
         Swal({
-          title: 'Success!',
+          title: "Success!",
           text: `Product ${response.data[0].product_name} saved successfully.`,
-          icon: 'success',
-          confirmButtonText: 'OK',
+          icon: "success",
+          confirmButtonText: "OK",
         });
         setEditingProduct(null);
       })
       .catch((error) => {
         console.error("Error saving product:", error);
         Swal({
-          title: 'Error!',
-          text: 'Failed to save the product. Please try again.',
-          icon: 'error',
-          confirmButtonText: 'OK',
+          title: "Error!",
+          text: "Failed to save the product. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
         });
       });
   };
-
 
   const handleAddProduct = (newProduct) => {
     axios
@@ -138,7 +144,7 @@ console.log("vvvvvvvvvvvvvv",searchResults)
             className="px-4 py-2 bg-[#C08261] text-sm text-white rounded-lg"
             onClick={() => setIsAddProductFormVisible(true)}
           >
-        Add product
+            Add product
           </button>
         </div>
       </div>
@@ -233,30 +239,28 @@ console.log("vvvvvvvvvvvvvv",searchResults)
                         />
                       </svg>
                     </button>
-                           {/* Display pagination controls */}
-      
+                    {/* Display pagination controls */}
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
-
         </table>
         <div className="flex justify-center mt-4">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={`mx-2 px-4 py-2 rounded ${
-              pageNumber === index + 1 ? 'bg-[#C08261] text-white' : 'bg-white text-[#C08261] border border-[#C08261]'
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
-
-
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              className={`mx-2 px-4 py-2 rounded ${
+                pageNumber === index + 1
+                  ? "bg-[#C08261] text-white"
+                  : "bg-white text-[#C08261] border border-[#C08261]"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
       {editingProduct && (
         <ProductForm
@@ -270,10 +274,8 @@ console.log("vvvvvvvvvvvvvv",searchResults)
           onSave={handleAddProduct}
           onClose={() => setIsAddProductFormVisible(false)}
         />
-        
       )}
     </div>
-    
   );
 }
 

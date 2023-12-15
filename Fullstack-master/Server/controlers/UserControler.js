@@ -1,5 +1,8 @@
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
+const validator = require("validator");
+const bcrypt = require("bcrypt");
+
 require("dotenv").config();
 
 const key = process.env.KEY;
@@ -23,13 +26,80 @@ const newUser = async (req, res) => {
     console.log(error);
   }
 };
+// const getpagi = async (req, res) => {
+//   try {
+//     const page = req.params.page;
+//     const limit = 5;
+//     const offset = (page - 1) * limit;
+//     console.log("I am here", page, limit);
+//     console.log("🤣🤣🤣🤣🤣", page, limit);
+
+//     const result = await products.getAllblogss(limit, offset);
+
+//     if (!result) {
+//       console.error("Error fetching blog data");
+//       return res.status(500).json({ error: "Internal Server Error" });
+//     }
+
+//     const totalCount = await products.getTotalCount(); // Implement a function to get the total count of products
+
+//     if (totalCount === undefined || totalCount === null) {
+//       console.error("Error fetching total count");
+//       return res.status(500).json({ error: "Internal Server Error" });
+//     }
+
+//     const totalPages = Math.ceil(totalCount / limit);
+
+//     const pagination = {
+//       current: page,
+//       prev: page > 1 ? page - 1 : null,
+//       next: page < totalPages ? parseInt(page) + 1 : null,
+//       total: totalPages,
+//     };
+
+//     res.json({ result, totalPages, pagination, limit });
+//   } catch (error) {
+//     console.error("Error in getpagi:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// }
+
 const getUsers = async (req, res) => {
   try {
+    const page = req.params.page;
+    const limit = 3;
+    const offset = (page - 1) * limit;
+    console.log("I am here", page, limit);
+    console.log("🤣🤣🤣🤣🤣", page, limit);
+
+    const result = await User.getAllData(limit, offset);
     console.log("issa");
-    const result = await User.getAllData();
-    return res.status(200).json(result.rows);
+    // const result = await User.getAllData();
+
+    if (!result) {
+      console.error("Error fetching blog data");
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    const totalCount = await User.getTotalCounts(); // Implement a function to get the total count of products
+
+    if (totalCount === undefined || totalCount === null) {
+      console.error("Error fetching total count");
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    const totalPages = Math.ceil(totalCount / limit);
+
+    const pagination = {
+      current: page,
+      prev: page > 1 ? page - 1 : null,
+      next: page < totalPages ? parseInt(page) + 1 : null,
+      total: totalPages,
+    };
+
+    res.json({ result, totalPages, pagination, limit });
   } catch (error) {
-    throw error;
+    console.error("Error in :", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 const getUser = async (req, res) => {
@@ -121,7 +191,6 @@ const updateUser = async (req, res) => {
   }
 };
 
-const bcrypt = require("bcrypt");
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -159,43 +228,53 @@ const loginUser = async (req, res) => {
     throw error;
   }
 };
+const validateEmail = (email) => {
+  return validator.isEmail(email);
+};
 const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
+
+  // Validate email format
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
+  // Validate password presence
+  if (!password) {
+    return res.status(400).json({ message: "Password is required" });
+  }
+
   try {
     const result = await User.getEmailAdmin(email);
-    console.log(result.rows);
-    if (result.rows.length > 0) {
-      // User found
-      const user = result.rows[0];
 
-      // Verify the provided password
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (passwordMatch) {
-        // Passwords match, create a token
         const token = jwt.sign(
-          { user_id: user.user_id, username: user.username, role: user.role }, // Payload
+          { user_id: user.user_id, username: user.username, role: user.role },
           key
         );
+
         await User.setActiveStatus(user.user_id, true);
 
-        // Check the role before responding
         if (user.role === "user") {
-          return res.json({ message: "You Are Not Admin 😒" });
+          return res.status(403).json({ message: "You are not an admin." });
         }
 
-        console.log(token);
         res.cookie("token", token, { httpOnly: true });
 
         return res.json({ user, token });
       } else {
-        return res.json({ message: "Incorrect password" });
+        return res.status(401).json({ message: "Incorrect password" });
       }
     } else {
-      return res.json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
-    throw error;
+    console.error("An error occurred:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 const logout = async (req, res) => {
@@ -268,5 +347,6 @@ module.exports = {
   getUserProfile,
   logout,
   loginAdmin,
-  updatePassword
+  updatePassword,
+  validateEmail,
 };
