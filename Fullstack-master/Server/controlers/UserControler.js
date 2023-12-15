@@ -112,6 +112,15 @@ const getUser = async (req, res) => {
     throw error;
   }
 };
+const getAllUsers = async (req, res) => {
+  try {
+    const result = await User.getAllUsers();
+    console.log(result);
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    throw error;
+  }
+};
 
 const updatePassword = async (req, res) => {
   const user_id = req.user;
@@ -349,4 +358,5 @@ module.exports = {
   loginAdmin,
   updatePassword,
   validateEmail,
+  getAllUsers
 };

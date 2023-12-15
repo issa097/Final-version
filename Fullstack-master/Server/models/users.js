@@ -3,9 +3,9 @@ const jwt = require("jsonwebtoken");
 const key = "issa";
 const bcrypt = require("bcrypt");
 
-// function getAllData() {
-//   return db.query("SELECT * FROM users  WHERE is_deleted=false");
-// }
+function getAllUsers() {
+  return db.query("SELECT * FROM users  WHERE is_deleted=false");
+}
 
 function getAllData(limit, offset) {
   const query = `
@@ -160,6 +160,7 @@ async function UserProfile(user_id) {
 }
 
 module.exports = {
+  getAllUsers,
   getAllData,
   newUser,
   getUser,
