@@ -2,10 +2,8 @@ const User = require("../models/users");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
-
-require("dotenv").config();
-
 const key = process.env.KEY;
+require("dotenv").config();
 
 const newUser = async (req, res) => {
   try {
@@ -26,43 +24,6 @@ const newUser = async (req, res) => {
     console.log(error);
   }
 };
-// const getpagi = async (req, res) => {
-//   try {
-//     const page = req.params.page;
-//     const limit = 5;
-//     const offset = (page - 1) * limit;
-//     console.log("I am here", page, limit);
-//     console.log("🤣🤣🤣🤣🤣", page, limit);
-
-//     const result = await products.getAllblogss(limit, offset);
-
-//     if (!result) {
-//       console.error("Error fetching blog data");
-//       return res.status(500).json({ error: "Internal Server Error" });
-//     }
-
-//     const totalCount = await products.getTotalCount(); // Implement a function to get the total count of products
-
-//     if (totalCount === undefined || totalCount === null) {
-//       console.error("Error fetching total count");
-//       return res.status(500).json({ error: "Internal Server Error" });
-//     }
-
-//     const totalPages = Math.ceil(totalCount / limit);
-
-//     const pagination = {
-//       current: page,
-//       prev: page > 1 ? page - 1 : null,
-//       next: page < totalPages ? parseInt(page) + 1 : null,
-//       total: totalPages,
-//     };
-
-//     res.json({ result, totalPages, pagination, limit });
-//   } catch (error) {
-//     console.error("Error in getpagi:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// }
 
 const getUsers = async (req, res) => {
   try {
@@ -74,14 +35,13 @@ const getUsers = async (req, res) => {
 
     const result = await User.getAllData(limit, offset);
     console.log("issa");
-    // const result = await User.getAllData();
 
     if (!result) {
       console.error("Error fetching blog data");
       return res.status(500).json({ error: "Internal Server Error" });
     }
 
-    const totalCount = await User.getTotalCounts(); // Implement a function to get the total count of products
+    const totalCount = await User.getTotalCounts();
 
     if (totalCount === undefined || totalCount === null) {
       console.error("Error fetching total count");
@@ -127,14 +87,12 @@ const updatePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   try {
-    // Retrieve the user from the database using the modified method
     const user = await User.getUserById(user_id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Check if the current password provided matches the stored password
     const isPasswordValid = await bcrypt.compare(
       currentPassword,
       user.password
@@ -144,10 +102,8 @@ const updatePassword = async (req, res) => {
       return res.status(401).json({ message: "Current password is incorrect" });
     }
 
-    // Hash the new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update the user's password
     const result = await User.updatePassword(user_id, hashedPassword);
 
     return res.status(200).json(result.rows);
@@ -176,21 +132,38 @@ const deleteUser = async (req, res) => {
 };
 const updateUser = async (req, res) => {
   const user_id = req.user;
-  const user_img = res.locals.site;
-  console.log(user_img);
-  const { username, email, phone_number, birthday } = req.body;
-  console.log(birthday);
-  try {
-    // تشفير كلمة المرور
 
+  // const user_img = res.locals.site;
+  // console.log(user_img);
+  const { username, email, phone_number, birthday } = req.body;
+
+  try {
     const result = await User.updateUser(
       user_id,
       username,
       email,
 
-      user_img,
       phone_number,
       birthday
+    );
+
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+const updatedImage = async (req, res) => {
+  const user_id = req.user;
+  const user_img = res.locals.site;
+  console.log(user_img);
+
+  // console.log(birthday);
+  try {
+    const result = await User.updatedImage(
+      user_id,
+
+      user_img
     );
 
     return res.status(200).json(result.rows);
@@ -206,20 +179,16 @@ const loginUser = async (req, res) => {
     const result = await User.getEmail(email);
     console.log(result.rows);
     if (result.rows.length > 0) {
-      // User found
       const user = result.rows[0];
 
-      // Verify the provided password
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (passwordMatch) {
-        // Passwords match, create a token
         const token = jwt.sign(
-          { user_id: user.user_id, username: user.username, role: user.role }, // Payload
+          { user_id: user.user_id, username: user.username, role: user.role },
           key
         );
 
-        // Update the 'active' field to true in the database
         await User.setActiveStatus(user.user_id, true);
 
         console.log(token);
@@ -243,12 +212,10 @@ const validateEmail = (email) => {
 const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
 
-  // Validate email format
   if (!validateEmail(email)) {
     return res.status(400).json({ message: "Invalid email format" });
   }
 
-  // Validate password presence
   if (!password) {
     return res.status(400).json({ message: "Password is required" });
   }
@@ -328,15 +295,13 @@ const google = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  // console.log(req.body)
 };
 
 const getUserProfile = async (req, res) => {
   const user_id = req.params.user_id;
 
   try {
-    const userBookings = await User.UserProfile(user_id); // افترض أن `db` هو كائن الاتصال بقاعدة البيانات
-
+    const userBookings = await User.UserProfile(user_id);
     return res.status(200).json(userBookings.rows);
   } catch (error) {
     console.error(error);
@@ -358,5 +323,6 @@ module.exports = {
   loginAdmin,
   updatePassword,
   validateEmail,
-  getAllUsers
+  getAllUsers,
+  updatedImage,
 };

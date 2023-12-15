@@ -89,24 +89,49 @@ function updateUser(
   username,
   email,
 
-  user_img,
   phone_number,
   birthday
 ) {
+
+console.log(  user_id,
+  username,
+  email,
+
+  phone_number,
+  birthday)
   const queryText = `
     UPDATE users 
     SET 
       username = COALESCE($2, username), 
       email = COALESCE($3, email), 
      
-      user_img = COALESCE($4, user_img),
-      phone_number = COALESCE($5, phone_number),
-      birthday = COALESCE($6, birthday)
+      
+      phone_number = COALESCE($4, phone_number),
+      birthday = COALESCE($5, birthday)
     WHERE 
       user_id = $1 
     RETURNING *`;
 
-  const values = [user_id, username, email, user_img, phone_number, birthday];
+  const values = [user_id, username, email, phone_number, birthday];
+  return db.query(queryText, values);
+}
+function updatedImage(
+  user_id,
+
+  user_img
+) {
+  const queryText = `
+    UPDATE users 
+    SET 
+
+     
+      user_img = COALESCE($2, user_img)
+
+    WHERE 
+      user_id = $1 
+    RETURNING *`;
+
+  const values = [user_id, user_img];
   return db.query(queryText, values);
 }
 
@@ -175,4 +200,5 @@ module.exports = {
   updatePassword,
   getUserById,
   getTotalCounts,
+  updatedImage,
 };

@@ -167,7 +167,8 @@ function Products() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-            {products.map((product, index) => (
+          {(searchResults.length > 0 ? searchResults : products || []).map(
+              (product, index) => (
               <tr
                 key={product.id}
                 className={`hover:bg-gray-50 ${

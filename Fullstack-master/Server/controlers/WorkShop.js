@@ -21,25 +21,21 @@ const getShopid = async (req, res) => {
 };
 
 const newShop = async (req, res) => {
+  const url = res.locals.site;
+
   try {
     const {
       workshop_name,
       workshop_dis,
       workshop_title,
     } = req.body;
-    const product_img = req?.file?.path ? req.file.path : "majdi";
-    // console.log(
-    //   product_name,
-    //   category_id,
-    //   price,
-    //   user_id,
-    //   product_img,
-    //   product_dis
-    // );
+   
+    
     const newblog = await workshop.newShop(
       workshop_name,
       workshop_dis,
       workshop_title,
+      url
     
     );
 
