@@ -28,5 +28,10 @@ router.get(
   authentication.authenticateToken,
   ContactController.getAdminMessages
 );
+router.get(
+  "/getContactMessageByuserr",
+  authentication.authenticateToken,
+  ContactController.getAdminMessagess
+);
 
 module.exports = router;

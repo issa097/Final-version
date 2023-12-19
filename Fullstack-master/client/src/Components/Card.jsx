@@ -1,9 +1,11 @@
-// Card.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
-function Card({ id, rating  , product, price, image }) {
+function Card({ id, product_name  , product, price, image }) {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,10 +36,12 @@ function Card({ id, rating  , product, price, image }) {
   const handleAddToCartClick = () => {
     try {
       // Add the item to the cart in local storage
-      const newProduct = { id,rating, product, price, image };
+      const newProduct = { id,product_name, product, price, image };
       const newCart = [...cart, newProduct];
       setCart(newCart);
       localStorage.setItem('cart', JSON.stringify(newCart));
+  
+
   
       // Optional: You can provide feedback to the user here
       console.log('Item added to cart:', newProduct);
@@ -48,7 +52,7 @@ function Card({ id, rating  , product, price, image }) {
 
   return (
     <Link to={`/details/${id}`}>
-      <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl mb-6">
+     <div className="w-full bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl mb-6">
         <div className="relative">
           <img src={image} className="h-72 w-72" alt="Card Image" />
           <div className="absolute top-3 right-3">
@@ -71,40 +75,24 @@ function Card({ id, rating  , product, price, image }) {
           </div>
         </div>
         <div className="px-4 py-3 w-72">
-          {/* <span className="text-gray-400 mr-3 uppercase text-xs">{category}</span> */}
           <p className="text-lg font-medium text-black truncate block capitalize">
             {product}
           </p>
+          <p className="text-sm text-gray-500 mb-2">{product_name}</p>
           <div className="flex items-center">
-          <p className="text-lg font-medium text-black cursor-auto my-3">
-              {price}
-            </p>
-
-            <p className="text-lg font-medium text-red cursor-auto my-3">
-              {rating}
+            <p className="text-lg font-medium text-black cursor-auto my-3">
+              {price} JOD
             </p>
             <div className="ml-auto">
-              <button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  className="bi bi-bag-plus fill-on-hover"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z"
-                  />
-                </svg>
-              </button>
+            <button>
+      <FontAwesomeIcon icon={faShoppingCart} />
+    </button>
+
             </div>
           </div>
         </div>
       </div>
     </Link>
   );
-}
-
+  }  
 export default Card;

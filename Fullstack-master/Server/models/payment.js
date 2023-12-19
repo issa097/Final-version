@@ -3,6 +3,19 @@ const db = require("../lib/db");
 function getAllpayments() {
   return db.query("SELECT * FROM payment");
 }
+const getTotalCount = async () => {
+  const result = await db.query("SELECT COUNT(*) FROM payment WHERE is_deleted = false");
+  return result.rows[0].count;
+};
+function getAllpaymentspagi(limit, offset) {
+  const query = `
+    SELECT * FROM payment 
+    WHERE is_deleted = false
+    LIMIT $1 OFFSET $2
+  `;
+  console.log("I am here ",limit,offset)
+  return db.query(query, [limit, offset]);
+}
 
 function getpaymentidUser(user_id) {
   const queryText = "SELECT * FROM payment WHERE user_id = $1";
@@ -160,4 +173,6 @@ module.exports = {
   getpaymentidUser,
   getpaymentid,
   deletepayment,
+  getAllpaymentspagi,
+  getTotalCount
 };

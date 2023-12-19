@@ -80,14 +80,22 @@ function updateContact(
 // const db = require('../your-db-connection-file'); // Adjust this to your database connection file
 
 function getAllUserMessages() {
-  return db.query(
-    "SELECT *, sendertype FROM contacts WHERE is_deleted = false AND sendertype = 'admin'"
-  );
+  const queryText =
+    "SELECT *, sendertype FROM contacts WHERE  is_deleted = false AND sendertype = 'admin' ";
+
+  return db.query(queryText);
 }
-function getAllAdminMessages() {
-  return db.query(
-    "SELECT *, sendertype FROM contacts WHERE is_deleted = false AND sendertype = 'user'"
-  );
+function getAllAdminMessages(user_id) {
+  const queryText =
+    "SELECT *, sendertype FROM contacts WHERE user_id = $1 AND is_deleted = false AND sendertype = 'user'";
+  const values = [user_id];
+  return db.query(queryText, values);
+}
+function getAllAdminMessagess() {
+  const queryText =
+    "SELECT *, sendertype FROM contacts WHERE  is_deleted = false AND sendertype = 'user'";
+  
+  return db.query(queryText);
 }
 
 function addMessage(
@@ -125,4 +133,5 @@ module.exports = {
   addMessage,
   getAllAdminMessages,
   getAllUserMessages,
+  getAllAdminMessagess
 };

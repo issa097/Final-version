@@ -506,7 +506,9 @@ const CommentSection = ({ product_id }) => {
 
   const fetchComments = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:8000/gitRatings/${id}`);
+      const response = await axios.get(
+        `http://localhost:8000/gitRatings/${id}`
+      );
       setComments(response.data);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -539,7 +541,9 @@ const CommentSection = ({ product_id }) => {
   }, []);
 
   const handleAddComment = () => {
-    axios.defaults.headers.common["Authorization"] = `${localStorage.getItem("token")}`;
+    axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
+      "token"
+    )}`;
 
     const dataapi = {
       comment: newComment.text,
@@ -624,67 +628,93 @@ const CommentSection = ({ product_id }) => {
 
   return (
     <div>
-      <div>
-        <label htmlFor="user">User:</label>
-        <input
-          type="text"
-          id="user"
-          name="user"
-          value={newComment.user_id}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="text">Comment:</label>
-        <textarea
-          id="text"
-          name="text"
-          value={newComment.comment}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className="flex items-center mb-4">
-        <span className="mr-2">Rating:</span>
-        {[1, 2, 3, 4, 5].map((rate) => (
-          <CiStar
-            key={rate}
-            className={`cursor-pointer ${
-              rating >= rate ? "text-yellow-500" : "text-gray-300"
-            }`}
-            onClick={() => setRating(rate)}
+      <div className="max-w-md mx-7">
+        <div className="mb-4">
+          <label
+            htmlFor="user"
+            className="block text-sm font-medium text-gray-600"
+          >
+            User:
+          </label>
+          <input
+            type="text"
+            id="user"
+            name="user"
+            value={newComment.user_id}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
           />
-        ))}
-      </div>
+        </div>
 
-      <button
-        onClick={handleAddComment}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Add Comment
-      </button>
+        <div className="mb-4">
+          <label
+            htmlFor="text"
+            className="block text-sm font-medium text-gray-600"
+          >
+            Comment:
+          </label>
+          <textarea
+            id="text"
+            name="text"
+            value={newComment.comment}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+          />
+        </div>
+
+        <div className="flex items-center mb-4">
+          <span className="mr-2">Rating:</span>
+          {[1, 2, 3, 4, 5].map((rate) => (
+            <div
+              key={rate}
+              className={`cursor-pointer text-2xl ${
+                rating >= rate ? "text-yellow-500" : "text-gray-300"
+              }`}
+              onClick={() => setRating(rate)}
+            >
+              ★
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={handleAddComment}
+          className="bg-[#C08261] text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300 ease-in-out"
+        >
+          Add Comment
+        </button>
+      </div>
 
       {comments && (
         <ul className="list-disc pl-6 mt-4">
           {comments.map((comment) => (
-            <li key={comment.rating_id} className="mb-2">
-              <strong className="text-blue-500">{comment.username}</strong>:
-              <br />
-              <span className="ml-2 text-yellow-500">{comment.comment}</span>
-              <span className="ml-2 text-yellow-500">
-                {[
-                  ...Array(
-                    Math.max(0, Math.floor(Number(comment.rating || 0)))
-                  ),
-                ].map((_, index) => (
-                  <CiStar key={index} />
+            <li
+              key={comment.rating_id}
+              className="mb-4 p-4 border border-gray-300 rounded"
+            >
+              <div className="flex items-center mb-2">
+                <strong className="text-blue-500">{comment.username}</strong>:
+                <span className="ml-2 text-yellow-500">{comment.comment}</span>
+              </div>
+              <div className="flex items-center">
+                <span className="mr-2">Rating:</span>
+                {[1, 2, 3, 4, 5].map((rate) => (
+                  <CiStar
+                    key={rate}
+                    className={`cursor-pointer ${
+                      comment.rating >= rate
+                        ? "text-yellow-500"
+                        : "text-gray-300"
+                    }`}
+                  />
                 ))}
-              </span>
+              </div>
               {userid && comment.user_id === userid.user_id && (
                 <>
-                  {isEditing && comment.rating_id === editedComment.rating_id ? (
-                    <div>
+                  {/* الأزرار للتعديل والحذف */}
+                  {isEditing &&
+                  comment.rating_id === editedComment.rating_id ? (
+                    <div className="mt-2">
                       <textarea
                         value={editedComment.comment}
                         onChange={(e) =>
@@ -693,27 +723,38 @@ const CommentSection = ({ product_id }) => {
                             comment: e.target.value,
                           })
                         }
+                        className="w-full p-2 border border-gray-300 rounded"
                       />
-                      <button onClick={() => handleUpdateComment(editedComment)}>
-                        Update
-                      </button>
-                      <button onClick={cancelEditMode}>Cancel</button>
+                      <div className="mt-2">
+                        <button
+                          onClick={() => handleUpdateComment(editedComment)}
+                          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                        >
+                          Update
+                        </button>
+                        <button
+                          onClick={cancelEditMode}
+                          className="bg-gray-500 text-white px-4 py-2 rounded"
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
                   ) : (
-                    <>
+                    <div className="mt-2 flex items-end justify-end ">
                       <button
                         onClick={() => activateEditMode(comment)}
-                        className="bg-[#C08261] text-white px-2 py-1 rounded ml-2"
+                        className="bg-[#C08261]  text-white px-4 py-2 rounded mr-2"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDeleteComment(comment.rating_id)}
-                        className="bg-red-500 text-white px-2 py-1 rounded ml-2"
+                        className="bg-red-500 text-white px-4 py-2 rounded"
                       >
                         Delete
                       </button>
-                    </>
+                    </div>
                   )}
                 </>
               )}
@@ -721,11 +762,8 @@ const CommentSection = ({ product_id }) => {
           ))}
         </ul>
       )}
-
-      {/* ... (الكود السابق) */}
     </div>
   );
 };
 
 export default CommentSection;
-

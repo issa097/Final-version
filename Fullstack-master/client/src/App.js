@@ -18,6 +18,7 @@ import { OrderProvider } from "./OrderContext/OrderContext";
 import AboutUs from "../src/Pages/AboutUs"
 import ContactUs from "./Pages/ContactUs";
 import Side from "./Components/Side";
+import Chat from "./Components/Chat"
 
 const App = () => {
   return (
@@ -40,6 +41,8 @@ const App = () => {
           <Route path="/blogsdetails/:id" element={<BlogsDetails />} />
           {/* <Route path='/payment' element={<PaymentForm />} /> */}
           <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/chat" element={<Chat/>} />
+
         </Routes>
       </OrderProvider>
     </Router>

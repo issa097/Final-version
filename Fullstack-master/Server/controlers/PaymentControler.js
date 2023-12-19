@@ -72,6 +72,44 @@ const getpayments = async (req, res) => {
     throw error;
   }
 };
+
+const getpagipayments = async (req, res) => {
+  try {
+    const page = req.params.page;
+    const limit = 5;
+    const offset = (page - 1) * limit;
+    console.log("I am here", page, limit);
+    console.log("🤣🤣🤣🤣🤣", page, limit);
+
+    const result = await payment.getAllpaymentspagi(limit, offset);
+
+    if (!result) {
+      console.error("Error fetching blog data");
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    const totalCount = await payment.getTotalCount(); // Implement a function to get the total count of products
+
+    if (totalCount === undefined || totalCount === null) {
+      console.error("Error fetching total count");
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    const totalPages = Math.ceil(totalCount / limit);
+
+    const pagination = {
+      current: page,
+      prev: page > 1 ? page - 1 : null,
+      next: page < totalPages ? parseInt(page) + 1 : null,
+      total: totalPages,
+    };
+
+    res.json({ result, totalPages, pagination, limit });
+  } catch (error) {
+    console.error("Error in getpagi:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 const getpaymentidUser = async (req, res) => {
   const user_id = req.params.userid;
   console.log(user_id);
@@ -110,4 +148,5 @@ module.exports = {
   getpaymentidUser,
   getpaymentid,
   deletepayment,
+  getpagipayments,
 };

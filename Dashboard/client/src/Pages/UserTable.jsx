@@ -121,7 +121,7 @@ function UserTable() {
         </div>
         <br />
         <div className="table-container" style={tableStyles}>
-          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
+          <table className=" text-center w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead className="bg-[#C08261]">
               <tr>
                 <th scope="col" className="px-6 py-4 font-medium text-gray-900">

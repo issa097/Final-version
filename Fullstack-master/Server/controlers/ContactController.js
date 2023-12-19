@@ -79,9 +79,7 @@ const updateContact = async (req, res) => {
   }
 };
 
-
-
-const   addContactMessage = async (req, res) => {
+const addContactMessage = async (req, res) => {
   const user_id = req.user;
   const role = req.role;
   console.log(req.role);
@@ -121,9 +119,22 @@ const getUserMessages = async (req, res) => {
 //   }
 // };
 
-const   getAdminMessages = async (req, res) => {
+const getAdminMessages = async (req, res) => {
+  const user_id = req.user;
+  console.log("object", user_id);
   try {
-    const result = await Contact.getAllAdminMessages();
+    const result = await Contact.getAllAdminMessages(user_id);
+    console.log(result);
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    throw error;
+  }
+};
+const getAdminMessagess = async (req, res) => {
+  // const user_id = req.user;
+  // console.log("object", user_id);
+  try {
+    const result = await Contact.getAllAdminMessagess();
     console.log(result);
     return res.status(200).json(result.rows);
   } catch (error) {
@@ -141,4 +152,5 @@ module.exports = {
   getAdminMessages,
   addContactMessage,
   getUserMessages,
+  getAdminMessagess,
 };

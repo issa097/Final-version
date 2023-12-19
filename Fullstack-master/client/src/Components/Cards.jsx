@@ -83,44 +83,42 @@ function Cards() {
 
   return (
     <div className="text-center mt-16 p-10 flex flex-col items-center text-[#C08261]">
-      <h1 className="font-bold text-4xl mb-4">New In</h1>
-      <h1 className="text-lg">Explore our new collection</h1>
+    <h1 className="font-bold text-4xl mb-4">New In</h1>
+    <h1 className="text-lg">Explore our new collection</h1>
 
-      <div className="p-24 flex flex-wrap items-center justify-center">
-        {products.slice(0, 3).map((product) => (
-       <div key={product.product_id} className="w-72 bg-white shadow-md rounded-lg mx-4 my-8">
-       <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
-         <img
-           className="object-cover rounded-tl-lg rounded-tr-lg absolute h-full w-full"
-           src={product.product_img}
-           alt={product.product_name}
-         />
-       </div>
-       <div className="px-5 py-3 space-y-2">
-              <h3 className="text-md">{product.product_name}</h3>
-              <p className="space-x-2">
-                <span className="text-2xl font-semibold">{`$${product.price}`}</span>
-              </p>
-              <div className="flex justify-between items-center pt-3 pb-2">
-                <button
-                  onClick={() => addToCart(product.product_id)}
-                  className="px-4 py-2 bg-[#C08261] hover:bg-[#E2C799] text-center text-sm text-white rounded duration-300"
-                >
-                  Add to Cart
-                </button>
-                <button
-                  onClick={() => addToWishlist(product.product_id)}
-                  title="Add to Favorites"
-                  className="text-2xl text-gray-300 hover:text-red-500 duration-300"
-                >
-                  &hearts;
-                </button>
-              </div>
+    <div className="p-24 flex flex-wrap items-center justify-center text-black">
+      {products.slice(0, 3).map((product) => (
+        <div key={product.product_id} className="w-72 bg-white shadow-md rounded-lg mx-4 my-8">
+          <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
+            <img
+              className="object-cover rounded-tl-lg rounded-tr-lg absolute h-full w-full"
+              src={product.product_img}
+              alt={product.product_name}
+            />
+          </div>
+          <div className="px-5 py-3 space-y-2 flex flex-col justify-between h-48">
+            <h3 className="text-md overflow-ellipsis overflow-hidden whitespace-nowrap">{product.product_name}</h3>
+            <p className="text-2xl font-semibold">{`${product.price} JOD`}</p>
+            <div className="flex justify-between items-center pt-3 pb-2">
+              <button
+                onClick={() => addToCart(product.product_id)}
+                className="px-4 py-2 bg-[#C08261] hover:bg-[#E2C799] text-center text-sm text-white rounded duration-300"
+              >
+                Add to Cart
+              </button>
+              <button
+                onClick={() => addToWishlist(product.product_id)}
+                title="Add to Favorites"
+                className="text-2xl text-gray-300 hover:text-red-500 duration-300"
+              >
+                &hearts;
+              </button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
+  </div>
   );
 }
 

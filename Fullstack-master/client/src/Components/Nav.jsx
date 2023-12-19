@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments } from "@fortawesome/free-solid-svg-icons"; // Import the chat icon
 
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function check() {
-    if (window.localStorage.getItem('token')) {
+    if (window.localStorage.getItem("token")) {
       return true;
     } else {
       return false;
@@ -24,7 +26,11 @@ const Nav = () => {
           <div className="px-4 mx-auto sm:px-6 lg:px-8">
             <nav className="relative flex items-center justify-between h-16 lg:h-24">
               <div className="hidden lg:flex lg:items-center lg:space-x-10">
-                <Link to="/" title="" className="text-base font-medium text-white">
+                <Link
+                  to="/"
+                  title=""
+                  className="text-base font-medium text-white"
+                >
                   {" "}
                   Home{" "}
                 </Link>
@@ -38,12 +44,20 @@ const Nav = () => {
                   Products
                 </Link>
 
-                <Link to="/Aboutus" title="" className="text-base font-medium text-white">
+                <Link
+                  to="/Aboutus"
+                  title=""
+                  className="text-base font-medium text-white"
+                >
                   {" "}
                   About Us
                 </Link>
 
-                <Link to="Contactus" title="" className="text-base font-medium text-white">
+                <Link
+                  to="/Contactus"
+                  title=""
+                  className="text-base font-medium text-white"
+                >
                   {" "}
                   Contact Us
                 </Link>
@@ -73,7 +87,7 @@ const Nav = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    d="M6 18L18 6M6 6l12 12M6 18L18 6"
                   />
                 </svg>
               </button>
@@ -167,6 +181,18 @@ const Nav = () => {
                     </svg>
                   </Link>{" "}
                 </div>{" "}
+                {/* Chat Icon */}
+                {check() && (
+                  <div className="hidden lg:flex justify-end lg:items-center lg:space-x-10">
+                    <Link
+                      to="/chat"
+                      title=""
+                      className="flex items-center justify-center w-10 h-10 text-white"
+                    >
+                      <FontAwesomeIcon icon={faComments} className="w-6 h-6" />
+                    </Link>
+                  </div>
+                )}
               </div>
             </nav>
           </div>
@@ -200,7 +226,7 @@ const Nav = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
+                    d="M6 18L18 6M6 6l12 12M6 18L18 6"
                   />
                 </svg>
               </button>

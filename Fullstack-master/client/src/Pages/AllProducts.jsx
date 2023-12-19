@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import CustomPagination from "../Components/CustomPagination";
+import Pagination from "../Components/CustomPagination";
 import Card from '../Components/Card';
 import Nav from "../Components/Nav";
 import Footer from "../Components/Footer";
@@ -150,20 +150,21 @@ const AllProducts = () => {
           </div>
         </div>
 
-         {/* Display the products using the Card component */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
-        {displayedProducts.map((product) => (
-          <Card
-            key={product.product_id}
-            id={product.product_id}
-            name={product.product_name}
-            category={product.category_id}
-            price={product.price}
-            image={product.product_img}
-          />
-        ))}
-      </div>
-      <CustomPagination pageCount={pageCount} handlePageClick={handlePageClick} />
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
+  {displayedProducts.map((product) => (
+    <Card
+      key={product.product_id}
+      id={product.product_id}
+      product={product.product_name}  
+      price={product.price}
+      image={product.product_img}
+    />
+  ))}
+</div>
+
+<Pagination currentPage={pageNumber} totalPages={pageCount} onPageChange={handlePageClick} />
+
+
     </div>
     <Footer />
     </>
