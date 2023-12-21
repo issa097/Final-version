@@ -125,14 +125,14 @@ function Products() {
 
   return (
     <>
-      
       <Statics />
+      <h2 className="text-3xl font-bold pt-[3rem] text-center mb-4">Product</h2>
       <div>
         <div className=" text-center w-full max-w-3xl mx-auto p-4">
           <label htmlFor="product-search" className="sr-only">
             Search for products
           </label>
-          <div className="flex items-center space-x-2 pt-20">
+          <div className="flex items-center space-x-2 pt-5">
             <input
               type="text"
               id="product-search"

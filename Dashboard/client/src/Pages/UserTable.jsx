@@ -101,6 +101,9 @@ function UserTable() {
   return (
     <>
       <Statics />
+      <h2 className="text-3xl font-bold pt-[3rem] text-center mb-4">
+        Users♦♠♥♣(●'◡'●)☺
+      </h2>
 
       <div className="overflow-hidden rounded-lg border border-[#C08261] shadow-md m-5  mt-30">
         <div className="flex items-center rounded-none border-none    space-x-2">

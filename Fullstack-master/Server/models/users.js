@@ -173,6 +173,7 @@ const updatePassword = async (user_id, hashedPassword) => {
   const values = [user_id, hashedPassword];
   return db.query(queryText, values);
 };
+
 async function UserProfile(user_id) {
   const queryText =
     "SELECT  workshops.workshop_name as workshop_name, workshops.workshop_dis as workshop_dis, workshops.workshop_title as workshop_title ,workshops.workshop_start as workshop_start,workshops.workshop_end as workshop_end " +
@@ -183,6 +184,36 @@ async function UserProfile(user_id) {
 
   return db.query(queryText, values);
 }
+
+
+
+// ...
+
+// async function getUserByEmail(email) {
+//   const queryText = 'SELECT * FROM users WHERE email = $1';
+//   const value = [email];
+
+//   try {
+//     const result = await db.query(queryText, value);
+//     return result.rows[0];
+//   } catch (error) {
+//     console.error("Error getting user by email:", error);
+//     throw error; // Re-throw the error to be caught by the calling function
+//   }
+// }
+
+// async function getUserByResetToken(password) {
+//   try {
+//     const result = await db.query('SELECT * FROM users WHERE password = $1', [password]);
+//     return result.rows[0];
+//   } catch (error) {
+//     console.error("Error getting user by reset token:", error);
+//     throw error; // Re-throw the error to be caught by the calling function
+//   }
+// }
+
+// ...
+
 
 module.exports = {
   getAllUsers,
@@ -201,4 +232,6 @@ module.exports = {
   getUserById,
   getTotalCounts,
   updatedImage,
+  // getUserByEmail,
+  // getUserByResetToken
 };

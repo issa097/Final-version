@@ -13,12 +13,12 @@ const RatingRouter = require("./routs/RatingRouter");
 const CartRouter = require("./routs/CartRouter");
 const WishlisRoutert = require("./routs/WishlisRoutert");
 const CouponRouter = require("./routs/CouponRouter");
+// const nodemailer = require("nodemailer");
 
 const cors = require("cors");
 const app = express();
 const path = require("path");
 const port = process.env.LISTEN_PORT;
-
 
 app.use(express.json());
 app.use(cors());
@@ -41,9 +41,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// app.get("/", (req, res) =>
+//   res.send("Hello World!");
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

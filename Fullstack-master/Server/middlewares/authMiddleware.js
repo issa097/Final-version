@@ -6,6 +6,7 @@ const SECRET_KEY = process.env.KEY;
 const authenticateToken = async (req, res, next) => {
   // const token = req.headers.cookie;
   // const auth = token.split("=")[1].trim();
+  // console.log(req.body);
   try {
     const token = req.headers.authorization;
     console.log("😜😜😜😜", token);

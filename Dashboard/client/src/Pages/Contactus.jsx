@@ -37,9 +37,10 @@ function Contactus() {
     <>
       {" "}
       <Statics />
-      <div className="pt-[7rem] ">
+      <h2 className="text-3xl font-bold pt-[3rem] text-center mb-4">Contact</h2>
+      <div className="pt-[2rem] ">
         {/* ml-96 */}
-        <div className="m-5 ">
+        <div className=" ">
           <div className="table-container" style={tableStyles}>
             <table className="  w-full border-collapse bg-white text-left text-sm text-gray-500 overflow-hidden rounded-lg border border-[#C08261] shadow-md p-5   ">
               <thead className="bg-[#C08261]">

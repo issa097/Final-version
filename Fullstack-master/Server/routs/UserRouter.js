@@ -34,10 +34,17 @@ router.put(
   UserController.updatePassword
 );
 router.put(
+  "/updatepasswordmiler",
+  UserController.updatePassword
+);
+router.put(
   "/updatedImage",
   authentication.authenticateToken,
   uploadImg.uploadImg,
   UserController.updatedImage
 );
+
+router.post("/sendEmail", UserController.sendEmail);
+router.post("/verificationCode", UserController.verificationCode);
 
 module.exports = router;

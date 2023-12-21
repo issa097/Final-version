@@ -4,6 +4,10 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const key = process.env.KEY;
 require("dotenv").config();
+// const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer");
+
+const db = require("../lib/db");
 
 const newUser = async (req, res) => {
   try {
@@ -192,6 +196,7 @@ const loginUser = async (req, res) => {
         await User.setActiveStatus(user.user_id, true);
 
         console.log(token);
+        // res.cookie("token", token);
         res.cookie("token", token, { httpOnly: true });
 
         return res.json({ user, token });
@@ -309,6 +314,89 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "haddadissa44@gmail.com",
+    pass: "muzp ydej rtsj arxx",
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
+
+
+const generateVerificationCode = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+const generatedVerificationCode = generateVerificationCode();
+
+const sendVerificationEmail = async (email, verificationCode) => {
+  const mailOptions = {
+    from: "haddadissa44@gmail.com",
+    to: email,
+    subject: "Email Verification Code",
+    text: `Your email verification code is: ${verificationCode}`,
+  };
+  console.log("Sending verification email to " + email);
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send email verification");
+  }
+};
+
+const sendEmail = async (req, res) => {
+  let emailFromSendEmail;
+
+  const email = req.body.email;
+
+  try {
+    console.log("issa", email);
+    emailFromSendEmail = email;
+
+    const checkEmailQuery = {
+      text: "SELECT user_id , password FROM users WHERE email = $1",
+      values: [email],
+    };
+
+    const emailCheck = await db.query(checkEmailQuery);
+
+    if (emailCheck.rows.length > 0) {
+      console.log("object");
+      await sendVerificationEmail(email, generatedVerificationCode);
+      console.log("ccccccccc", email);
+      res.json("Verification code email has been sent.");
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    } else {
+      res.status(400).json({ error: "Email not found in the database." });
+    }
+  } catch (error) {
+    console.error("Error sending verification email:", error);
+    res.json({
+      error: "An error occurred while sending the verification email.",
+    });
+  }
+};
+
+const verificationCode = async (req, res) => {
+  const verificationCode = req.body.verificationCode;
+
+  if (verificationCode === generatedVerificationCode) {
+    res.json({
+      message: "You can go to reset password",
+    });
+  } else {
+    res.status(400).json({
+      message: "Invalid verification code",
+    });
+  }
+};
+
 module.exports = {
   newUser,
   getUsers,
@@ -325,4 +413,6 @@ module.exports = {
   validateEmail,
   getAllUsers,
   updatedImage,
+  sendEmail,
+  verificationCode,
 };
