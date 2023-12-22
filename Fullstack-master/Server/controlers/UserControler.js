@@ -116,6 +116,36 @@ const updatePassword = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+const updatePasswordmailer = async (req, res) => {
+  const { email, password } = req.body;
+  console.log(email, password)
+
+  try {
+    const user = await User.getEmail(email);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // const isPasswordValid = await bcrypt.compare(
+    //   user.password
+    // );
+
+    // if (!isPasswordValid) {
+    //   return res.status(401).json({ message: "Current password is incorrect" });
+    // }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await User.updatePasswordd( email, hashedPassword);
+
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 const decode = (req, res) => {
   const { token } = req.body;
   try {
@@ -136,9 +166,6 @@ const deleteUser = async (req, res) => {
 };
 const updateUser = async (req, res) => {
   const user_id = req.user;
-
-  // const user_img = res.locals.site;
-  // console.log(user_img);
   const { username, email, phone_number, birthday } = req.body;
 
   try {
@@ -384,7 +411,8 @@ const sendEmail = async (req, res) => {
 };
 
 const verificationCode = async (req, res) => {
-  const verificationCode = req.body.verificationCode;
+  const verificationCode = req.body.verificationCode.join('');
+  console.log(verificationCode)
 
   if (verificationCode === generatedVerificationCode) {
     res.json({
@@ -410,6 +438,7 @@ module.exports = {
   logout,
   loginAdmin,
   updatePassword,
+  updatePasswordmailer,
   validateEmail,
   getAllUsers,
   updatedImage,

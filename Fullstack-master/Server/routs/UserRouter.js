@@ -9,6 +9,11 @@ router.post("/register", UserController.newUser);
 router.post("/login", UserController.loginUser);
 router.post("/logout", authentication.authenticateToken, UserController.logout);
 router.post("/loginAdmin", UserController.loginAdmin);
+router.post("/google", UserController.google);
+
+//nodemiller
+router.post("/sendEmail", UserController.sendEmail);
+router.post("/verificationCode", UserController.verificationCode);
 
 //token decoding
 router.post("/decode", UserController.decode);
@@ -27,15 +32,15 @@ router.put(
   authentication.authenticateToken,
   UserController.updateUser
 );
-router.post("/google", UserController.google);
+
 router.put(
   "/updatepassword",
   authentication.authenticateToken,
   UserController.updatePassword
 );
 router.put(
-  "/updatepasswordmiler",
-  UserController.updatePassword
+  "/updatepasswordmailer",
+  UserController.updatePasswordmailer
 );
 router.put(
   "/updatedImage",
@@ -44,7 +49,7 @@ router.put(
   UserController.updatedImage
 );
 
-router.post("/sendEmail", UserController.sendEmail);
-router.post("/verificationCode", UserController.verificationCode);
+
+
 
 module.exports = router;

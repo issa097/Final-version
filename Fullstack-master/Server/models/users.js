@@ -173,6 +173,18 @@ const updatePassword = async (user_id, hashedPassword) => {
   const values = [user_id, hashedPassword];
   return db.query(queryText, values);
 };
+const updatePasswordd = async (email, hashedPassword) => {
+  const queryText = `
+    UPDATE users 
+    SET 
+      password = $2
+    WHERE 
+      email = $1 
+    RETURNING *`;
+
+  const values = [email, hashedPassword];
+  return db.query(queryText, values);
+};
 
 async function UserProfile(user_id) {
   const queryText =
@@ -234,4 +246,5 @@ module.exports = {
   updatedImage,
   // getUserByEmail,
   // getUserByResetToken
+  updatePasswordd,
 };
