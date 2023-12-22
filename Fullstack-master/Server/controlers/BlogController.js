@@ -58,8 +58,8 @@ const getBlog = async (req, res) => {
 };
 
 const getBlogidUser = async (req, res) => {
-  const user_id = req.params.user_id;
-  console.log(user_id);
+  const user_id = req.user;
+  console.log("😉", user_id);
   try {
     const result = await blog.getBlogidUser(user_id);
     return res.status(200).json(result.rows);
@@ -71,7 +71,7 @@ const getBlogidUser = async (req, res) => {
 const newblog = async (req, res) => {
   const url = res.locals.site;
   const user_id = req.user;
-console.log(url , user_id)
+  console.log(url, user_id);
   try {
     // console.log(req.body);
     const { title, content } = req.body;
@@ -121,7 +121,7 @@ const approved = async (req, res) => {
   // const blog_id = req.params.blog_id;
   try {
     const result = await blog.approved();
-    return res.status(200).json({result:result.rows});
+    return res.status(200).json({ result: result.rows });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -144,7 +144,7 @@ const approvedUpdate = async (req, res) => {
 
 const approvedReject = async (req, res) => {
   const blog_id = req.params.blog_id;
-  console.log("hello", req.params.blog_id)
+  console.log("hello", req.params.blog_id);
 
   try {
     const result = await blog.approvedReject(blog_id);
@@ -168,5 +168,5 @@ module.exports = {
   approved,
   approvedUpdate,
   approvedReject,
-  getBlogpagi
+  getBlogpagi,
 };

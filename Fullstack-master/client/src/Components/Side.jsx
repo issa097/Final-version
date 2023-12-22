@@ -6,6 +6,8 @@ import WishList from "./WishList";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import Cookies from "js-cookie";
+import Blogsprofile from "./BlogsProfille";
+import WorkShopprofile from "./NewShopBooking";
 
 export const setLocalStorage = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
@@ -200,18 +202,18 @@ const Side = () => {
                       </span>
                     </button>
 
-                    {/* <button
-                    className="w-full flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                    onClick={() => setPage("Blog")}
-                  >
-                    <span className="mx-2 text-sm font-medium">Blogs</span>
-                  </button>
-                  <button
+                    <button
+                      className="w-full flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                      onClick={() => setPage("Blog")}
+                    >
+                      <span className="mx-2 text-sm font-medium">Blogs</span>
+                    </button>
+                    <button
                     className="w-full flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
                     onClick={() => setPage("PlanPricing")}
                   >
                     <span className="mx-2 text-sm font-medium">PlanPricing</span>
-                  </button> */}
+                  </button>
                   </div>
 
                   <div className="space-y-3 ">
@@ -254,12 +256,12 @@ const Side = () => {
         >
           <WishList />
         </div>
-        {/* <div className={`${page == "Blog" ? "block" : "hidden"} w-full`}>
-          <Blog />
+        <div className={`${page == "Blog" ? "block" : "hidden"} w-full`}>
+          <Blogsprofile />
         </div>
         <div className={`${page == "PlanPricing" ? "block" : "hidden"} w-full`}>
-          <PlanPricing />
-        </div> */}
+          <WorkShopprofile />
+        </div>
       </div>
       <Footer />
     </>

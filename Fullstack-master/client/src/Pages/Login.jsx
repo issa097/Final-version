@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert";
 import GoolgeSignInButton from "../Components/GoogleSignup";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -128,7 +128,11 @@ const LoginForm = () => {
                 value={formData.password}
                 onChange={handleInputChange}
               />
+              <div className="text-end pt-2">
+                <a href="/rest">ForgetPassword?</a>
+              </div>
             </div>
+
             <div className="!mt-10">
               <button
                 type="button"

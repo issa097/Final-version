@@ -15,41 +15,46 @@ export default function GoolgeSignInButton() {
     onError: (error) => console.log("Login Failed:", error),
   });
 
- useEffect(() => {
-  console.log("userGoogle:", userGoogle);
+  useEffect(() => {
+    console.log("userGoogle:", userGoogle);
 
-  if (userGoogle.access_token) {
-    axios
-      .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userGoogle.access_token}`)
-      .then(async (res) => {
-        console.log("Google User Info:", res.data);
+    if (userGoogle.access_token) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userGoogle.access_token}`
+        )
+        .then(async (res) => {
+          console.log("Google User Info:", res.data);
 
-        try {
-          const response = await axios.post("http://localhost:8000/google", res.data);
-          console.log("Server response:", response.data);
+          try {
+            const response = await axios.post(
+              "http://localhost:8000/google",
+              res.data
+            );
+            console.log("Server response:", response.data);
 
-          const token = response.data.token;
-          console.log("Token:", token);
+            const token = response.data.token;
+            console.log("Token:", token);
 
-          // Make sure the token is not undefined or null before storing it
-          if (token) {
-            localStorage.setItem("token", token);
-            navigate('/');
+            // Make sure the token is not undefined or null before storing it
+            if (token) {
+              localStorage.setItem("token", token);
+              navigate("/");
+            }
+
+            // Rest of your code...
+          } catch (error) {
+            console.log("Error:", error);
           }
-
-          // Rest of your code...
-        } catch (error) {
-          console.log("Error:", error);
-        }
-      })
-      .catch((err) => console.log("Google User Info Error:", err.message));
-  }
-}, [userGoogle,navigate]);
+        })
+        .catch((err) => console.log("Google User Info Error:", err.message));
+    }
+  }, [userGoogle, navigate]);
 
   return (
     <button
       id="google-sign-in"
-      className="w-full bg-[#219D80] max-w-xs font-bold hover:bg-[#219D80] hover:text-white  shadow-sm rounded-lg py-3 text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
+      className="w-full bg-[#C08261]  font-bold hover:bg-[#E2C799] hover:text-white mt-4  shadow-sm rounded py-3 text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
       onClick={() => login()}
     >
       <div className="bg-white p-2 rounded-full">

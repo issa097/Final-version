@@ -20,8 +20,9 @@ const getworkshop_bookingsId = async (req, res) => {
 };
 
 const Newworkshop_bookings = async (req, res) => {
+  const user_id =req.user
   try {
-    const { user_id, workshop_id, booking_date, booking_time } = req.body;
+    const {workshop_id, booking_date, booking_time } = req.body;
     //   const product_img = req?.file?.path ? req.file.path : "majdi";
     console.log(user_id, workshop_id, booking_date, booking_time);
     const newblog = await workshop_bookings.Newworkshop_bookings(
@@ -71,6 +72,15 @@ const updateworkshop_bookings = async (req, res) => {
       throw error;
     }
   };
+  const workshopuserid = async (req, res) => {
+    const user_id = req.user;
+    try {
+      const result = await workshop_bookings.workshopuserid(user_id);
+      return res.status(200).json(result.rows);
+    } catch (error) {
+      throw error;
+    }
+  };
   
 
 module.exports = {
@@ -79,4 +89,5 @@ module.exports = {
   Newworkshop_bookings,
   deleteworkshop_bookings,
   updateworkshop_bookings,
+  workshopuserid,
   workshop}

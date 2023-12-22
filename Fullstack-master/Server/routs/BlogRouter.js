@@ -7,7 +7,7 @@ const uploadImg = require("../middlewares/MulterMiddlewares");
 
 router.get("/getAllBlog", BlogController.getAllBlog);
 router.get("/getBlog/:blog_id", BlogController.getBlog);
-router.get("/getBlogidUser/:user_id", BlogController.getBlogidUser);
+router.get("/getBlogidUser",authentication.authenticateToken, BlogController.getBlogidUser);
 router.get("/blog/:page/:limit", BlogController.getBlogpagi);
 
 router.post("/newblog", authentication.authenticateToken,uploadImg.uploadImg, BlogController.newblog);
