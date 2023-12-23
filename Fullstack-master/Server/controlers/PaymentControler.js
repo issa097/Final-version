@@ -30,8 +30,9 @@ const newpayment = async (req, res) => {
         confirm: true,
         description: "Done",
 
-        return_url: "https://your-website.com/success", // Specify the return URL
+        return_url: "https://your-website.com/success",
       });
+      console.log(amount) // Specify the return URL
 
       try {
         const newpayment = await payment.newpayment(

@@ -51,7 +51,7 @@ const PaymentForm = () => {
     setState(event.target.value);
   };
 
-  const [totalPrice, setTotalPrice] = useState(0.5);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -64,7 +64,7 @@ const PaymentForm = () => {
     if (!stripe || !elements) {
       return;
     }
-    const totalPrice = cartData.reduce((acc, item) => acc + item.price, 0);
+
     //const product_name = cartData.map((title) => title.product_name);
 
     // console.log("object", product_name);
@@ -134,6 +134,14 @@ const PaymentForm = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    // حساب إجمالي الأسعار
+    const calculatedTotalPrice = cartData.reduce(
+      (acc, item) => acc + item.price,
+      0
+    );
+    setTotalPrice(calculatedTotalPrice);
+  }, [cartData]);
   useEffect(() => {
     if (appliedCoupon !== null) {
       applyCoupon();
@@ -291,6 +299,7 @@ const PaymentForm = () => {
                     {item.product_id}
                   </li>
                 ))}
+      <p>Total Price: ${totalPrice}</p>
               </ul>
               <label
                 htmlFor="card-details"

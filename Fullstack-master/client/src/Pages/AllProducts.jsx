@@ -8,7 +8,7 @@ import Footer from "../Components/Footer";
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
-  const productsPerPage = 15;
+  const productsPerPage = 5;
   const [selectedCategory, setSelectedCategory] = useState(5);
   const [sortOption, setSortOption] = useState("default");
   const [searchInput, setSearchInput] = useState("");

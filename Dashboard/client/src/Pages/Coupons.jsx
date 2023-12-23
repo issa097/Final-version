@@ -5,21 +5,41 @@ import Statics from "./Statics";
 
 function Coupons() {
   const [coupons, setCoupons] = useState([]);
+  const [limit, setlimit] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setCurrentPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(1);
+
   const tableStyles = {
     overflowX: "auto",
   };
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/getCoupons");
-        setCoupons(response.data);
+        const response = await axios.get(
+          `http://localhost:8000/getCouponspagi/${page}/${limit}`
+        );
+        // setCoupons(response.data);
+        const { totalPages, pagination } = response.data;
+
+        const result = response.data.result.rows;
+        setCoupons(result);
+        setTotalPages(totalPages);
+        setlimit(response.data.limit);
+        console.log("result", result);
+        console.log("totalPages", totalPages);
+        console.log("pagination", pagination);
+        console.log("limit", limit);
       } catch (error) {
         console.error("Error fetching coupons:", error);
       }
     };
 
     fetchCoupons();
-  }, []);
+  }, [page, limit]);
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   const handleDeleteCopun = async (id) => {
     try {
@@ -143,6 +163,21 @@ function Coupons() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="flex justify-center mt-4">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => handlePageChange(index + 1)}
+                className={`mx-2 px-4 py-2 rounded ${
+                  pageNumber === index + 1
+                    ? "bg-[#C08261] text-white"
+                    : "bg-white text-[#C08261] border border-[#C08261]"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
           </div>
         </div>
       </div>
