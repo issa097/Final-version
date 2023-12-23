@@ -51,6 +51,8 @@ function Blog() {
     axios
       .put(`http://localhost:8000/approvedUpdate/${blog_id}`)
       .then((response) => {
+        showAlert("blog approved succsfully", "success");
+
         console.log(response.data);
       })
       .catch((error) => {
@@ -62,19 +64,27 @@ function Blog() {
     axios
       .put(`http://localhost:8000/approvedReject/${blog_id}`)
       .then((response) => {
-        // swal({
-        //   title: 'Reject!',
-        //   text: `blog rejected succsfully`,
-        //   icon: 'Warning',
-        //   confirmButtonText: 'OK',
-        // });
+        swal({
+          title: "Done!",
+          text: `blog rejected succsfully`,
+          icon: "warning",
+          confirmButtonText: "OK",
+        });
         console.log(response.data);
       })
       .catch((error) => {
         console.error("Error rejecting blog:", error);
       });
   };
-
+  const showAlert = (message, icon) => {
+    // alert(message, icon);
+    swal({
+      title: icon === "success" ? "Success" : "Error",
+      text: message,
+      icon: icon,
+      confirmButtonText: "OK",
+    });
+  };
   return (
     <>
       {" "}

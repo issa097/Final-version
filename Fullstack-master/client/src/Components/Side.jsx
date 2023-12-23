@@ -210,9 +210,9 @@ const Side = () => {
                     </button>
                     <button
                     className="w-full flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                    onClick={() => setPage("PlanPricing")}
+                    onClick={() => setPage("WorkShopBooking")}
                   >
-                    <span className="mx-2 text-sm font-medium">PlanPricing</span>
+                    <span className="mx-2 text-sm font-medium">WorkShopBooking</span>
                   </button>
                   </div>
 
@@ -259,7 +259,7 @@ const Side = () => {
         <div className={`${page == "Blog" ? "block" : "hidden"} w-full`}>
           <Blogsprofile />
         </div>
-        <div className={`${page == "PlanPricing" ? "block" : "hidden"} w-full`}>
+        <div className={`${page == "WorkShopBooking" ? "block" : "hidden"} w-full`}>
           <WorkShopprofile />
         </div>
       </div>

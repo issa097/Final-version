@@ -49,6 +49,43 @@ const NewContact = async (req, res) => {
     return res.status(500).json("internal server error");
   }
 };
+const getadminContactpagi = async (req, res) => {
+  try {
+    const page = req.params.page;
+    const limit = 3;
+    const offset = (page - 1) * limit;
+    console.log("I am here", page, limit);
+    console.log("🤣🤣🤣🤣🤣", page, limit);
+
+    const result = await Contact.getAllAdminMessagess(limit, offset);
+
+    if (!result) {
+      console.error("Error fetching blog data");
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    const totalCount = await Contact.getTotalCount(); // Implement a function to get the total count of products
+
+    if (totalCount === undefined || totalCount === null) {
+      console.error("Error fetching total count");
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    const totalPages = Math.ceil(totalCount / limit);
+
+    const pagination = {
+      current: page,
+      prev: page > 1 ? page - 1 : null,
+      next: page < totalPages ? parseInt(page) + 1 : null,
+      total: totalPages,
+    };
+
+    res.json({ result, totalPages, pagination, limit });
+  } catch (error) {
+    console.error("Error in getpagi:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 const deleteContact = async (req, res) => {
   const contact_id = req.params.contact_id;
@@ -108,16 +145,6 @@ const getUserMessages = async (req, res) => {
     throw error;
   }
 };
-// const getAdminMessages = async (req, res) => {
-//   // const user_id = req.user;
-//   try {
-//     const adminMessages = await Contact.getAllAdminMessages();
-//     console.log(adminMessages);
-//     return res.status(200).json(adminMessages.rows);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 const getAdminMessages = async (req, res) => {
   const user_id = req.user;
@@ -153,4 +180,5 @@ module.exports = {
   addContactMessage,
   getUserMessages,
   getAdminMessagess,
+  getadminContactpagi,
 };
