@@ -1,6 +1,6 @@
 import React from "react";
 
-const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const renderPageNumbers = () => {
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -8,10 +8,15 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
         <li key={i}>
           <a
             href="#"
-            className={`px-2 text-lg font-medium sm:px-3 ${
-              currentPage === i ? "text-white bg-[#C08261]" : "hover:text-[#E2C799]"
+            className={`px-3 py-2 text-lg font-medium ${
+              currentPage === i
+                ? "text-white bg-[#C08261]"
+                : "hover:text-[#E2C799]"
             }`}
-            onClick={() => onPageChange(i)}
+            onClick={(e) => {
+              e.preventDefault();
+              onPageChange(i);
+            }}
           >
             {i}
           </a>
@@ -22,30 +27,43 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
   };
 
   return (
-    <nav aria-label="Page Navigation" className="mx-auto my-10 flex max-w-md justify-between space-x-2 rounded-md bg-white py-2 text-gray-700">
-      <a
-        href="#"
-        className="flex items-center space-x-1 font-medium hover:text-[#C08261]"
-        aria-label="Previous Page"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        {/* Previous page icon */}
-      </a>
-      <ul className="flex">
+    <nav
+      aria-label="Page Navigation"
+      className="flex items-center justify-center my-5"
+    >
+      <ul className="flex space-x-2">
+        {currentPage > 1 && (
+          <li>
+            <a
+              href="#"
+              className="px-3 py-2 text-lg font-medium hover:text-[#E2C799]"
+              onClick={(e) => {
+                e.preventDefault();
+                onPageChange(currentPage - 1);
+              }}
+            >
+              &laquo; Prev
+            </a>
+          </li>
+        )}
         {renderPageNumbers()}
+        {currentPage < totalPages && (
+          <li>
+            <a
+              href="#"
+              className="px-3 py-2 text-lg font-medium hover:text-[#E2C799]"
+              onClick={(e) => {
+                e.preventDefault();
+                onPageChange(currentPage + 1);
+              }}
+            >
+              Next &raquo;
+            </a>
+          </li>
+        )}
       </ul>
-      <a
-        href="#"
-        className="flex items-center space-x-1 font-medium hover:text-[#C08261]"
-        aria-label="Next Page"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        {/* Next page icon */}
-      </a>
     </nav>
   );
 };
 
-export default CustomPagination;
+export default Pagination;

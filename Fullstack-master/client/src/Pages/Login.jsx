@@ -128,9 +128,6 @@ const LoginForm = () => {
                 value={formData.password}
                 onChange={handleInputChange}
               />
-              <div className="text-end pt-2">
-                <a href="/rest">ForgetPassword?</a>
-              </div>
             </div>
 
             <div className="!mt-10">
@@ -142,6 +139,11 @@ const LoginForm = () => {
                 Log in
               </button>
               <GoolgeSignInButton />
+            </div>
+            <div className="text-center mt-4">
+              <Link to="/rest" className="text-[#C08261] font-medium underline">
+                Forgot Password?
+              </Link>
             </div>
           </form>
         </div>
