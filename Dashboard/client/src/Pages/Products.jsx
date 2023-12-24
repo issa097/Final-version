@@ -95,17 +95,17 @@ function Products() {
       });
   };
 
-  const handleAddProduct = (newProduct) => {
-    axios
-      .post("http://localhost:8000/product", newProduct)
-      .then((response) => {
-        setIsAddProductFormVisible(false);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error adding product:", error);
-      });
-  };
+  // const handleAddProduct = (newProduct) => {
+  //   axios
+  //     .post("http://localhost:8000/product", newProduct)
+  //     .then((response) => {
+  //       setIsAddProductFormVisible(false);
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error adding product:", error);
+  //     });
+  // };
 
   const handleDeleteProduct = (productId) => {
     axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
@@ -135,7 +135,7 @@ function Products() {
           <div className="flex items-center space-x-2 pt-5">
             <input
               type="text"
-              id="product-search"
+              id="product_name"
               className="w-full p-2 text-sm border border-gray-300 rounded-lg"
               placeholder="Search for products"
               value={searchTerm}
@@ -300,7 +300,7 @@ function Products() {
         )}
         {isAddProductFormVisible && (
           <AddProductForm
-            onSave={handleAddProduct}
+            // onSave={handleAddProduct}
             onClose={() => setIsAddProductFormVisible(false)}
           />
         )}

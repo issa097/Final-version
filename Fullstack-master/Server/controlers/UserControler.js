@@ -32,7 +32,7 @@ const newUser = async (req, res) => {
 const getUsers = async (req, res) => {
   try {
     const page = req.params.page;
-    const limit = 3;
+    const limit = 4;
     const offset = (page - 1) * limit;
     console.log("I am here", page, limit);
     console.log("🤣🤣🤣🤣🤣", page, limit);
@@ -119,7 +119,7 @@ const updatePassword = async (req, res) => {
 
 const updatePasswordmailer = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password)
+  console.log(email, password);
 
   try {
     const user = await User.getEmail(email);
@@ -138,7 +138,7 @@ const updatePasswordmailer = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const result = await User.updatePasswordd( email, hashedPassword);
+    const result = await User.updatePasswordd(email, hashedPassword);
 
     return res.status(200).json(result.rows);
   } catch (error) {
@@ -164,6 +164,16 @@ const deleteUser = async (req, res) => {
     throw error;
   }
 };
+const Undo = async (req, res) => {
+  const user_id = req.params.user_id;
+  try {
+    const result = await User.Undo(user_id);
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateUser = async (req, res) => {
   const user_id = req.user;
   const { username, email, phone_number, birthday } = req.body;
@@ -352,8 +362,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-
-
 const generateVerificationCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
@@ -411,8 +419,8 @@ const sendEmail = async (req, res) => {
 };
 
 const verificationCode = async (req, res) => {
-  const verificationCode = req.body.verificationCode.join('');
-  console.log(verificationCode)
+  const verificationCode = req.body.verificationCode.join("");
+  console.log(verificationCode);
 
   if (verificationCode === generatedVerificationCode) {
     res.json({
@@ -444,4 +452,5 @@ module.exports = {
   updatedImage,
   sendEmail,
   verificationCode,
+  Undo,
 };

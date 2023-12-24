@@ -9,9 +9,10 @@ function getAllUsers() {
 
 function getAllData(limit, offset) {
   const query = `
-    SELECT * FROM users 
-    WHERE is_deleted = false
-    LIMIT $1 OFFSET $2
+  SELECT * FROM users 
+WHERE is_deleted = false OR is_deleted = true
+LIMIT $1 OFFSET $2;
+
   `;
   console.log("I am here ", limit, offset);
   return db.query(query, [limit, offset]);
@@ -77,6 +78,11 @@ function deleteUser(user_id) {
   const value = [user_id];
   return db.query(queryText, value);
 }
+function Undo(user_id) {
+  const queryText = "UPDATE users SET is_deleted = false WHERE user_id = $1";
+  const value = [user_id];
+  return db.query(queryText, value);
+}
 
 // function updateUser(user_id, username, email, password) {
 //   const queryText =
@@ -92,13 +98,14 @@ function updateUser(
   phone_number,
   birthday
 ) {
+  console.log(
+    user_id,
+    username,
+    email,
 
-console.log(  user_id,
-  username,
-  email,
-
-  phone_number,
-  birthday)
+    phone_number,
+    birthday
+  );
   const queryText = `
     UPDATE users 
     SET 
@@ -197,8 +204,6 @@ async function UserProfile(user_id) {
   return db.query(queryText, values);
 }
 
-
-
 // ...
 
 // async function getUserByEmail(email) {
@@ -226,7 +231,6 @@ async function UserProfile(user_id) {
 
 // ...
 
-
 module.exports = {
   getAllUsers,
   getAllData,
@@ -247,4 +251,5 @@ module.exports = {
   // getUserByEmail,
   // getUserByResetToken
   updatePasswordd,
+  Undo,
 };
