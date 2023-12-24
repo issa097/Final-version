@@ -5,7 +5,7 @@ import swal from "sweetalert";
 
 function UserTable() {
   const [users, setUsers] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
   const [page, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);

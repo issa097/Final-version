@@ -94,7 +94,7 @@ const PaymentForm = () => {
 
       if (appliedCoupon) {
         // Calculate the discounted total based on coupon
-        paymentAmount = discountedTotal;
+        paymentAmount =  discountedTotal;
       } else {
         // Use the original total price
         paymentAmount = totalPrice;
@@ -135,9 +135,8 @@ const PaymentForm = () => {
     }
   };
   useEffect(() => {
-    // حساب إجمالي الأسعار
     const calculatedTotalPrice = cartData.reduce(
-      (acc, item) => acc + item.price*item.quantity,
+      (acc, item) => acc + item.price * item.quantity,
       0
     );
     setTotalPrice(calculatedTotalPrice);
@@ -157,18 +156,12 @@ const PaymentForm = () => {
       setdiscountedTotal(response.data.discountedTotal);
 
       setAppliedCoupon(response.data.coupon.rows[0].discount_percentage);
-      console.log("😒😒😒", response.data.discountedTotal);
+      console.log("😒😒😒", response.data);
       showAlert("Coupon successful!", "success");
 
       setCouponError(null);
-
-      // Update total price or apply the logic as needed
-      // You might want to store the discounted total in state
-      // and use it in your payment request.
-      // setTotalPrice(response.data.discountedTotal);
     } catch (error) {
       setAppliedCoupon(null);
-      // setCouponError(error.response.data.error);
       showAlert("Coupon Not Found", "error");
     } finally {
       setLoading(false);
@@ -295,11 +288,12 @@ const PaymentForm = () => {
               <ul>
                 {cartData.map((item) => (
                   <li key={item.id}>
-                    {item.product_name}- Price: {item.price * item.quantity}-product:
+                    {item.product_name}- Price: {item.price * item.quantity}
+                    -product:
                     {item.product_id}
                   </li>
                 ))}
-      <p>Total Price: ${totalPrice}</p>
+                <p>Total Price: ${totalPrice}</p>
               </ul>
               <label
                 htmlFor="card-details"

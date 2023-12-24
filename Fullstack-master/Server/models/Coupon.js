@@ -71,7 +71,7 @@ const deleteCoupon = async (id) => {
 };
 const calculateDiscountedTotal = (discount_percentage, cart) => {
   console.log("object", discount_percentage);
-  const originalTotal = cart.reduce((acc, item) => acc + item.price, 0);
+  const originalTotal = cart.reduce((acc, item) => acc + item.price* item.quantity, 0);
   const discountAmount = (originalTotal * discount_percentage) / 100;
   const discountedTotal = originalTotal - discountAmount;
   console.log("ddddd", originalTotal, discountAmount, discountedTotal);

@@ -56,19 +56,16 @@ const Counter = ({ cart_id }) => {
 
   const updateCart = async () => {
     try {
-      // يجب استبداله بالقيمة الفعلية لرقم العربة الذي تريد تحديثه
       const response = await axios.put(
         `http://localhost:8000/updateCart/${cart_id}`,
         {
-          // يمكنك تمرير البيانات التي تريد تحديثها في العربة هنا
           quantity: count,
-          // ... البيانات الأخرى
         }
       );
 
-      console.log("تم تحديث العربة بنجاح", response.data);
+      console.log("The cart has been updated successfully", response.data);
     } catch (error) {
-      console.error("حدث خطأ أثناء تحديث العربة", error);
+      console.error("An error occurred while updating the cart", error);
     }
   };
 

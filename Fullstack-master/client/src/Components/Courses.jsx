@@ -40,6 +40,8 @@ function Courses() {
       try {
         const response = await axios.get("http://localhost:8000/getAllShop");
         setWorkshops(response.data);
+        setWorkshops(response.data);
+        console.log("objectsssssa", response.data.workshop_id);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -61,7 +63,7 @@ function Courses() {
     setIsModalOpen(false);
   };
 
-  const handleConfirmClick = async () => {
+  const handleConfirmClick = async (workshop_id) => {
     closeModal();
 
     // Retrieve the token from local storage
@@ -74,7 +76,7 @@ function Courses() {
       // Send a request to your server to validate the token
       const response = await axios.post(
         "http://localhost:8000/Newworkshop_bookings",
-        selectedWorkshop
+        { workshop_id: workshop_id }
       );
 
       if (response.data) {
@@ -239,7 +241,7 @@ function Courses() {
       >
         {displayedworkshop.map((workshop) => (
           <div
-            key={workshop.id}
+            key={workshop.workshop_id}
             className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4"
           >
             <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -264,8 +266,7 @@ function Courses() {
                 </p>
                 {localStorage.getItem("token") ? (
                   <button
-                    onClick={handleConfirmClick}
-                    href="#"
+                    onClick={() => handleConfirmClick(workshop.workshop_id)}
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#C08261]"
                   >
                     Save a seat
