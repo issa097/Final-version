@@ -137,7 +137,7 @@ const PaymentForm = () => {
   useEffect(() => {
     // حساب إجمالي الأسعار
     const calculatedTotalPrice = cartData.reduce(
-      (acc, item) => acc + item.price,
+      (acc, item) => acc + item.price*item.quantity,
       0
     );
     setTotalPrice(calculatedTotalPrice);
@@ -295,7 +295,7 @@ const PaymentForm = () => {
               <ul>
                 {cartData.map((item) => (
                   <li key={item.id}>
-                    {item.product_name}- Price: {item.price}-product:
+                    {item.product_name}- Price: {item.price * item.quantity}-product:
                     {item.product_id}
                   </li>
                 ))}

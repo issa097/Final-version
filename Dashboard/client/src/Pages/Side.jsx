@@ -89,7 +89,8 @@ function SideBar() {
             <div className="flex justify-between  items-center p-4">
               <h1 className="text-3xl font-bold ">Dashboard</h1>
               <button onClick={handleToggleSidebar} className="text-2xl ">
-                {sidebarVisible ? <FaTimes /> : <FaBars />} <FaBars />
+                {sidebarVisible ? <FaTimes /> : <FaBars />} 
+                {/* <FaBars /> */}
               </button>
             </div>
             <ul className="mt-20 space-y-3">

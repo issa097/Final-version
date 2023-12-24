@@ -6,6 +6,7 @@ function Cards() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     axios
@@ -28,7 +29,8 @@ function Cards() {
     )}`;
 
     await axios
-      .post(`http://localhost:8000/items`, { product_id: product_id })
+      .post(`http://localhost:8000/items`, { product_id: product_id ,
+      quantity: quantity, })
       .then((response) => {
         Swal("Done!", "Product has been added to cart", "success");
       })

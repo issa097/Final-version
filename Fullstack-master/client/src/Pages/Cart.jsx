@@ -324,8 +324,9 @@ import Counter from "../Components/Counter";
 const Cart = () => {
   const [cartProduct, setCartProduct] = useState([]);
   const [total, setTotal] = useState([]);
+  console.log(total, "oooo");
   const { cartData, setOrderData } = useOrder();
-
+  console.log("objectc", cartData);
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartProduct(storedCart);
@@ -333,7 +334,9 @@ const Cart = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        axios.defaults.headers.common["Authorization"] = ` ${localStorage.getItem("token",token)}`;
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = ` ${localStorage.getItem("token", token)}`;
         const response = await axios.get("http://localhost:8000/getitems");
         setTotal(response.data);
       } catch (error) {
@@ -357,11 +360,11 @@ const Cart = () => {
         }
         return item;
       });
-  
+
       return updatedCart;
     });
   };
-  
+
   const handleCheckout = () => {
     setOrderData(total);
   };
@@ -372,29 +375,38 @@ const Cart = () => {
       <section className="flex items-center bg-stone-200 lg:h-full font-poppins dark:bg-gray-700">
         <div className="justify-center flex-1 px-4 py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
           <div className="p-8 bg-gray-50 dark:bg-gray-800">
-            <h2 className="mb-8 text-4xl font-bold dark:text-gray-400">Your Cart</h2>
+            <h2 className="mb-8 text-4xl font-bold dark:text-gray-400">
+              Your Cart
+            </h2>
             <div className="flex flex-wrap -mx-4">
-            {total.map((product) => (
-  <div
-    className="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0"
-    key={product.product_id}
-  >
-    <img src={product.product_img} alt="" className="w-full h-96 md:h-24 md:w-24 object-cover" />
-    <div className="w-2/3 px-4">
-      <h2 className="mb-2 text-xl font-bold dark:text-gray-400">{product.product_name}</h2>
-      {/* <p className="text-gray-500 dark:text-gray-400 ">{product.product_description}</p> */}
-    </div>
-    <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
-      <div className="inline-flex items-center px-4 font-semibold ">
-      <Counter />
-       
-      </div>
-    </div>
-    <div className="w-auto flex justify-end px-4 text-right md:w-1/6 lg:w-2/12 ">
-      <p className="text-lg font-bold dark:text-gray-400">{product.price}</p>
-    </div>
-  </div>
-))}
+              {total.map((product) => (
+                <div
+                  className="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0"
+                  key={product.product_id}
+                >
+                  <img
+                    src={product.product_img}
+                    alt=""
+                    className="w-full h-96 md:h-24 md:w-24 object-cover"
+                  />
+                  <div className="w-2/3 px-4">
+                    <h2 className="mb-2 text-xl font-bold dark:text-gray-400">
+                      {product.product_name}
+                    </h2>
+                    {/* <p className="text-gray-500 dark:text-gray-400 ">{product.product_description}</p> */}
+                  </div>
+                  <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
+                    <div className="inline-flex items-center px-4 font-semibold ">
+                      <Counter cart_id={product.cart_id} />
+                    </div>
+                  </div>
+                  <div className="w-auto flex justify-end px-4 text-right md:w-1/6 lg:w-2/12 ">
+                    <p className="text-lg font-bold dark:text-gray-400">
+                      price: {product.price * product.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="mt-6 text-center">
               <Link to="/payment">
@@ -430,4 +442,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
