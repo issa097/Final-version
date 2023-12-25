@@ -13,6 +13,7 @@ const RatingRouter = require("./routs/RatingRouter");
 const CartRouter = require("./routs/CartRouter");
 const WishlisRoutert = require("./routs/WishlisRoutert");
 const CouponRouter = require("./routs/CouponRouter");
+const FaqRouter = require("./routs/FaqRouter");
 // const nodemailer = require("nodemailer");
 
 const cors = require("cors");
@@ -35,6 +36,7 @@ app.use(RatingRouter);
 app.use(CartRouter);
 app.use(WishlisRoutert);
 app.use(CouponRouter);
+app.use(FaqRouter);
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

@@ -30,6 +30,7 @@ const newUser = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
+  // console.log(req);
   try {
     const page = req.params.page;
     const limit = 4;

@@ -87,7 +87,6 @@ function Card({ id, product_name, product, price, image, key }) {
   };
 
   return (
-    <Link to={`/details/${id}`}>
       <div className="w-full bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl mb-6">
         <div className="relative">
           <img src={image} className="h-72 w-72" alt="Card Image" />
@@ -101,10 +100,14 @@ function Card({ id, product_name, product, price, image, key }) {
             </button>
           </div>
         </div>
+    
+
         <div className="px-4 py-3 w-72">
+        <Link to={`/details/${id}`}>
           <p className="text-lg font-medium text-black truncate block capitalize">
             {product}
           </p>
+          </Link>
           <p className="text-sm text-gray-500 mb-2">{product_name}</p>
           <div className="flex items-center">
             <p className="text-lg font-medium text-black cursor-auto my-3">
@@ -118,7 +121,6 @@ function Card({ id, product_name, product, price, image, key }) {
           </div>
         </div>
       </div>
-    </Link>
   );
 }
 export default Card;

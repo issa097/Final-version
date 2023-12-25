@@ -63,7 +63,7 @@ const Chat = () => {
           "http://localhost:8000/getContactMessageadmin"
         );
         setMessages(response.data);
-        console.log("issa", response.data[0]);
+        console.log("issa", response.data);
       } catch (error) {
         console.error("Error getting chat history:", error);
       }
@@ -99,7 +99,7 @@ const Chat = () => {
           messages.map((msg, index) => (
             <ChatMessage
               key={index}
-              content={msg.contact_name}
+              content={msg.contact_message}
               sender={msg.sendertype}
             />
           ))}
@@ -109,7 +109,7 @@ const Chat = () => {
           messagesuser.map((msg, index) => (
             <ChatMessage
               key={index}
-              content={msg.contact_name}
+              content={msg.contact_message}
               sender={msg.sendertype}
             />
           ))}

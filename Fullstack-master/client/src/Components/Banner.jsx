@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+
 function Banner() {
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [Coupon1, setCoupon1] = useState(0);

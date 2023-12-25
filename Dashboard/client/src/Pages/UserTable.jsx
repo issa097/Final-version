@@ -32,7 +32,8 @@ function UserTable() {
           const limit = response.data.limit;
           console.log("asd", limit);
           setlimit(limit);
-
+          console.log(response.config.url, "asdasasdasdasd");
+          // window.location.href=response.config.urlx
           console.log(totalPages);
         })
         .catch((error) => {
@@ -219,7 +220,6 @@ function UserTable() {
                         >
                           {user.is_deleted ? "Unblock" : "Block"}
                         </button>
-                
                       </div>
                     </td>
                   </tr>

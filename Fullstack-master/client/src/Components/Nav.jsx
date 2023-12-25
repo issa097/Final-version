@@ -61,6 +61,15 @@ const Nav = () => {
                   {" "}
                   ContactUs
                 </Link>
+
+                <Link
+                  to="/Faq"
+                  title=""
+                  className="text-base font-medium text-white"
+                >
+                  {" "}
+                  FAQ
+                </Link>
               </div>
 
               <div className="hidden lg:flex lg:items-center lg:justify-center lg:h-24 lg:w-full">

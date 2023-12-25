@@ -8,15 +8,7 @@ const newblog = async (req, res) => {
   console.log(user_id);
   try {
     const { product_name, category_id, price, product_dis } = req.body;
-    // const product_img = req?.file?.path ? req.file.path : "majdi";
-    // console.log(
-    //   product_name,
-    //   category_id,
-    //   price,
-    //   user_id,
-    //   product_img,
-    //   product_dis
-    // );
+  
     const newblog = await products.newblog(
       product_name,
       category_id,

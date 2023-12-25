@@ -1,49 +1,31 @@
-import React from "react";
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 function NotFound() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      offset: 200,
+    });
+  }, []);
+
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row items-center justify-center space-y-16 lg:space-y-0 space-x-8 2xl:space-x-0">
-      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center lg:px-2 xl:px-0 text-center">
-        <p className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider text-gray-300">
-          404
-        </p>
-        <p className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider text-gray-300 mt-2">
-          Page Not Found
-        </p>
-        <p className="text-lg md:text-xl lg:text-2xl text-gray-500 my-12">
-          Sorry, the page you are looking for could not be found.
-        </p>
-        <a
-          href="/" // Replace with the actual home page URL
-          className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded transition duration-150"
-          title="Return Home"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-          <span>Return To Login</span>
-        </a>
+    <>
+    
+    <section className="bg-white dark:bg-gray-900 min-h-screen flex items-center justify-center" data-aos="fade-down">
+      <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+        <div className="mx-auto max-w-screen-sm text-center">
+          <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-[#C08261] dark:text-primary-500">404</h1>
+          <p className="mb-4 text-3xl tracking-tight font-bold text-[#C08261] md:text-4xl dark:text-white">Something's missing.</p>
+          <p className="mb-4 text-lg font-light text-[#C08261] dark:text-gray-400">Sorry, we can't find that page. You'll find lots to explore on the home page. </p>
+          <a href="/" className="inline-flex text-white bg-[#C08261] hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4">Back to Homepage</a>
+        </div>
       </div>
-      <div className="w-1/2 lg:h-full flex lg:items-end justify-center p-4">
-        <svg
-          className="w-full text-blue-600"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1120.59226 777.91584"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        >
-          {/* ... (your SVG code) ... */}
-        </svg>
-      </div>
-    </div>
+    </section>
+
+    </>
   );
 }
 

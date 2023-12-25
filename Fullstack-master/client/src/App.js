@@ -27,6 +27,7 @@ import Chat from "./Components/Chat";
 import Reset from "./Components/Rest";
 import Otp from "./Components/Otp";
 import NewPassword from "./Components/NewPassword";
+import FAQ from "./Pages/Faq";
 
 const App = () => {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -57,6 +58,7 @@ const App = () => {
             path="/chat"
             element={isAuthenticated ?  <Chat /> :<Navigate to="*" />  }
           />
+       
   
           <Route path="/admin" element={<YourComponent />} />
           <Route path="*" element={<NotFound />} />
@@ -66,6 +68,7 @@ const App = () => {
           <Route path="/rest" element={<Reset />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/newpassword" element={<NewPassword />} />
+          <Route path="/Faq" element={<FAQ />} />
         </Routes>
       </OrderProvider>
     </Router>

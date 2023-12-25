@@ -20,6 +20,7 @@ router.post("/decode", UserController.decode);
 
 //users/user:id
 router.get("/users/:page/:limit", UserController.getUsers);
+
 router.get("/users", UserController.getAllUsers);
 router.get("/user", authentication.authenticateToken, UserController.getUser);
 
