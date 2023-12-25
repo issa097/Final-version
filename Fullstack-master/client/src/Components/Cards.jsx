@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert";
+import StarRating from "./StarRating";
 
 function Cards() {
   const [products, setProducts] = useState([]);
@@ -29,8 +30,10 @@ function Cards() {
     )}`;
 
     await axios
-      .post(`http://localhost:8000/items`, { product_id: product_id ,
-      quantity: quantity, })
+      .post(`http://localhost:8000/items`, {
+        product_id: product_id,
+        quantity: quantity,
+      })
       .then((response) => {
         Swal("Done!", "Product has been added to cart", "success");
       })
@@ -128,6 +131,7 @@ function Cards() {
                 {product.product_name}
               </h3>
               <p className="text-2xl font-semibold">{`${product.price} JOD`}</p>
+              <StarRating rating={product.product_rating} />
               <div className="flex justify-between items-center pt-3 pb-2">
                 <button
                   onClick={() => handleAddToCart(product.product_id)}

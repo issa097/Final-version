@@ -79,10 +79,31 @@ const updateShop = async (req, res) => {
     throw error;
   }
 };
+
+const updatedImage = async (req, res) => {
+  const workshop_id = req.params.workshop_id;
+  const workshop_img = res.locals.site;
+  console.log(workshop_img);
+
+  // console.log(birthday);
+  try {
+    const result = await workshop.updatedImage(
+      workshop_id,
+
+      workshop_img
+    );
+
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 module.exports = {
   getAllShop,
   getShopid,
   newShop,
   deleteShop,
   updateShop,
+  updatedImage
 };

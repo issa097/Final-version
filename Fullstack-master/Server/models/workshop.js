@@ -35,7 +35,25 @@ async function deleteShop(workshop_id) {
     throw error;
   }
 }
+function updatedImage(
+  workshop_id,
 
+  workshop_img
+) {
+  const queryText = `
+    UPDATE workshops 
+    SET 
+
+     
+    workshop_img = COALESCE($2, workshop_img)
+
+    WHERE 
+    workshop_id = $1 
+    RETURNING *`;
+
+  const values = [workshop_id, workshop_img];
+  return db.query(queryText, values);
+}
 // function updateShop(
 //   workshop_id,
 //   workshop_name,
@@ -99,4 +117,5 @@ module.exports = {
   newShop,
   deleteShop,
   updateShop,
+  updatedImage
 };

@@ -255,7 +255,7 @@ function Courses() {
               <div className="p-4">
                 <a href="#">
                   <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {workshop.workshop_title}
+                    {workshop.workshop_name}
                   </h5>
                 </a>
                 <p className="mb-3 text-sm text-gray-700 dark:text-gray-400">

@@ -1,7 +1,12 @@
 import React from "react";
 import Home from "./Pages/Home";
 import Details from "./Pages/Details";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import AllProducts from "./Pages/AllProducts";
 import Contact from "./Pages/ContactUs";
 import Categories from "./Components/Categories";
@@ -37,22 +42,27 @@ const App = () => {
           <Route path="/Categories" element={<Categories />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/payment" element={<Payment />} />
+        
           <Route path="/cart" element={<Cart />} />
-          {/* <Route path="/side" element={<Side />} /> */}
-
-          {isAuthenticated ? (
-            <Route path="/side" element={<Side />} />
-          ) : (
-            <Route path="/login" element={<LoginForm />} />
-          )}
+         
+          <Route
+            path="/side"
+            element={isAuthenticated ?  <Side /> :<Navigate to="*" />  }
+          />
+          <Route
+            path="/payment"
+            element={isAuthenticated ?  <Payment /> :<Navigate to="*" />  }
+          />
+          <Route
+            path="/chat"
+            element={isAuthenticated ?  <Chat /> :<Navigate to="*" />  }
+          />
+  
           <Route path="/admin" element={<YourComponent />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/allblogs" element={<AllBlogs />} />
           <Route path="/blogsdetails/:id" element={<BlogsDetails />} />
-          {/* <Route path='/payment' element={<PaymentForm />} /> */}
           <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/chat" element={<Chat />} />
           <Route path="/rest" element={<Reset />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/newpassword" element={<NewPassword />} />

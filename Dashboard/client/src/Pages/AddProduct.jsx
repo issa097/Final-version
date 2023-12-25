@@ -46,6 +46,8 @@ const AddProductForm = ({ onClose }) => {
       // onSave(); // Assuming onSave is a callback to handle success
       onClose();
     } catch (error) {
+      showAlert("Product Not Added!", "error");
+
       console.error("Error:", error);
     }
   };

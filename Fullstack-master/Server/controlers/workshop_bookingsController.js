@@ -23,7 +23,7 @@ const Newworkshop_bookings = async (req, res) => {
   const user_id = req.user;
   try {
     const { workshop_id, booking_date, booking_time } = req.body;
-    console.log("asdasd", workshop_id);
+    console.log("issa", workshop_id);
     //   const product_img = req?.file?.path ? req.file.path : "majdi";
     console.log(user_id, workshop_id, booking_date, booking_time);
     const newblog = await workshop_bookings.Newworkshop_bookings(
