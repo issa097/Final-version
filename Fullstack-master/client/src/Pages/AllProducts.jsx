@@ -561,19 +561,19 @@ const AllProducts = () => {
           </div>
         ) : (
           <>
-            <div className="flex mt-10 mx-20 justify-between">
-              <div className="mb-0">
-                <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row mt-10 mx-4 sm:mx-20 justify-between">
+              <div className="mb-4 sm:mb-0">
+                <div className="flex space-x-2 sm:space-x-4">
                   {[
                     { name: "All", id: 5 },
                     { name: "Clothes", id: 1 },
-                    { name: "Accesories", id: 2 },
+                    { name: "Accessories", id: 2 },
                     { name: "Handmade", id: 3 },
                     { name: "Food", id: 4 },
                   ].map((category) => (
                     <button
                       key={category.id}
-                      className={`border px-4 py-2 rounded-lg ${
+                      className={`border px-2 sm:px-4 py-2 rounded-lg text-sm sm:text-base ${
                         selectedCategory === category.id
                           ? "bg-[#C08261] "
                           : "border-[#C08261] "
@@ -585,6 +585,7 @@ const AllProducts = () => {
                   ))}
                 </div>
               </div>
+
               <div className="mb-0 ">
                 <label className="block text-sm font-medium text-gray-700 border border-[#C08261] ">
                   <select

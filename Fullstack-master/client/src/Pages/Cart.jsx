@@ -327,43 +327,46 @@ const Cart = () => {
   console.log(total, "oooo");
   const { cartData, setOrderData } = useOrder();
   console.log("objectc", cartData);
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = ` ${localStorage.getItem(
+        "token",
+        token
+      )}`;
+      const response = await axios.get("http://localhost:8000/getitems");
+      setTotal(response.data);
+    } catch (error) {
+      console.error("An error occurred during data fetch:", error);
+    }
+  };
+
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartProduct(storedCart);
 
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = ` ${localStorage.getItem("token", token)}`;
-        const response = await axios.get("http://localhost:8000/getitems");
-        setTotal(response.data);
-      } catch (error) {
-        console.error("An error occurred during data fetch:", error);
-      }
-    };
-
     fetchData();
+    // const issa = fetchData()
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartProduct));
-  }, [cartProduct]);
+  // useEffect(() => {
+  //   // localStorage.setItem("cart", JSON.stringify(cartProduct));
+  // }, [cartProduct]);
 
-  const handleQuantityChange = (productId, quantityChange) => {
-    setCartProduct((prevCart) => {
-      const updatedCart = prevCart.map((item) => {
-        if (item.id === productId) {
-          const newQuantity = Math.max(0, item.quantity + quantityChange);
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      });
+  // const handleQuantityChange = (productId, quantityChange) => {
+  //   setCartProduct((prevCart) => {
+  //     const updatedCart = prevCart.map((item) => {
+  //       if (item.id === productId) {
+  //         const newQuantity = Math.max(0, item.quantity + quantityChange);
+  //         return { ...item, quantity: newQuantity };
+  //       }
+  //       return item;
+  //     });
 
-      return updatedCart;
-    });
-  };
+  //     return updatedCart;
+  //   });
+  // };
 
   const handleCheckout = () => {
     setOrderData(total);
@@ -397,7 +400,10 @@ const Cart = () => {
                   </div>
                   <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
                     <div className="inline-flex items-center px-4 font-semibold ">
-                      <Counter cart_id={product.cart_id} />
+                      <Counter
+                        cart_id={product.cart_id}
+                        fetchData={fetchData}
+                      />
                     </div>
                   </div>
                   <div className="w-auto flex justify-end px-4 text-right md:w-1/6 lg:w-2/12 ">

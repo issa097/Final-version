@@ -15,6 +15,7 @@ function Cards() {
       .then((response) => {
         if (Array.isArray(response.data)) {
           setProducts(response.data);
+          console.log("eeeee", response.data);
         } else {
           console.error("Invalid data format. Expected an array.");
         }

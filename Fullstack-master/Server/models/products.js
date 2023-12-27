@@ -96,7 +96,7 @@
 const db = require("../lib/db");
 
 function getAllblogs() {
-  return db.query(`SELECT *
+  return db.query(`SELECT * 
   FROM products
   WHERE is_deleted = false
   ORDER BY product_rating DESC;

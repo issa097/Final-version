@@ -65,11 +65,14 @@ function uploadImg(req, res, next) {
             next();
           })
           .catch((error) => {
+            console.log(error)
             console.error("Error:", error);
           });
       }
     });
   } catch (error) {
+    console.log(error)
+
     console.error("Error uploading image:", error);
     res.status(500).send("Error uploading image.");
   }

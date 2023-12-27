@@ -11,6 +11,7 @@ import Swal from "sweetalert";
 function Card({ id, product_name, product, price, image, key }) {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +61,7 @@ function Card({ id, product_name, product, price, image, key }) {
     )}`;
 
     await axios
-      .post(`http://localhost:8000/items`, { product_id: id })
+      .post(`http://localhost:8000/items`, { product_id: id ,quantity:quantity})
       .then((response) => {
         Swal("Done!", "Product has been added to cart", "success");
       })

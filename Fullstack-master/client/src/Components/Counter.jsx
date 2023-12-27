@@ -41,7 +41,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Counter = ({ cart_id }) => {
+const Counter = ({ cart_id ,fetchData }) => {
   const [count, setCount] = useState(1);
 
   const decreaseCount = () => {
@@ -62,11 +62,14 @@ const Counter = ({ cart_id }) => {
           quantity: count,
         }
       );
-
+      fetchData()
       console.log("The cart has been updated successfully", response.data);
+
     } catch (error) {
       console.error("An error occurred while updating the cart", error);
     }
+    
+
   };
 
   return (

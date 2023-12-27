@@ -43,7 +43,8 @@ function AllBlogs() {
       <Nav />
     <div className="bg-gray-100 px-2 py-10">
       {blogs.map((blog) => (
-        <Link key={blog.blog_id} to={`/blogsdetails/${blog.blog_id}`}>
+        // <Link key={blog.blog_id} to={`/blogsdetails/${blog.blog_id}`}>
+        <Link key={blog.blog_id}>
           <article className="mx-auto my-10 flex max-w-md flex-col rounded-2xl bg-white px-4 shadow md:max-w-5xl md:flex-row md:items-center">
             <div className="shrink-0 my-4 md:mr-8 md:max-w-sm">
               <img className="rounded-2xl" src={blog.blog_img} alt="" />

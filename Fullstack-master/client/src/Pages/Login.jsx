@@ -67,7 +67,7 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      setErrors(error.response.data.errors);
+      // setErrors(error.response.data.errors);
       Swal({
         icon: "error",
         title: "Login Failed!",

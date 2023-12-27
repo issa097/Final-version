@@ -339,7 +339,7 @@ function SideBar() {
             sidebarVisible ? "" : "hidden"
           }`}
         >
-          <div className="transition-all duration-300 z-10">
+          <div className="transition-all duration-300 z-10 ">
             <div className="flex justify-between fixed w-full items-center p-4 z-30 bg-[#C08261] text-white">
               <h1 className="text-3xl font-bold">Dashboard</h1>
               <button onClick={handleToggleSidebar} className="text-2xl">
@@ -348,8 +348,8 @@ function SideBar() {
               </button>
             </div>
           </div>
-          <ul className=" space-y-3">
-            <ul className="mt-20 overflow-y-scroll space-y-3">
+          <ul className=" space-y-3 overflow-y-scroll">
+            <ul className="mt-20  space-y-3">
               <li
                 className={`relative flex cursor-pointer space-x-2 rounded-md py-4 px-10 text-gray-300 hover:bg-[#E2C799] ${
                   activeItem === "usertable" ? "bg-slate-600" : ""
@@ -584,25 +584,6 @@ function SideBar() {
                 </span>
                 <span className="">Settings</span>
               </li>
-              {user &&
-                user.map((d) => (
-                  <div
-                    key={d.user_id}
-                    className="my-6 ml-4 flex cursor-pointer"
-                  >
-                    <div>
-                      <img
-                        className="h-12 w-12 rounded-full"
-                        src={d.user_img}
-                        alt="User"
-                      />
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-medium">{d.username}</p>
-                      <p className="text-sm text-gray-300">{d.role}</p>
-                    </div>
-                  </div>
-                ))}
               {user &&
                 user.map((d) => (
                   <div

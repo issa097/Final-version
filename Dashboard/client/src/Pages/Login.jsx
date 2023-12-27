@@ -74,7 +74,7 @@ function Login() {
           return swal.fire({
             icon: "error",
             title: "Login Failed!",
-            text: "Incorrect email.",
+            text: "Incorrect email or password.",
             confirmButtonColor: "#d33",
           });
         }else
@@ -84,7 +84,7 @@ function Login() {
           return swal.fire({
             icon: "error",
             title: "Login Failed!",
-            text: "Incorrect password.",
+            text: "Incorrect email or password.",
             confirmButtonColor: "#d33",
           });
         } else if (status === 404) {

@@ -24,19 +24,14 @@ const newShop = async (req, res) => {
   const url = res.locals.site;
 
   try {
-    const {
-      workshop_name,
-      workshop_dis,
-      workshop_title,
-    } = req.body;
-   
-    
+    const { workshop_name, workshop_dis, workshop_title } = req.body;
+    console.log(workshop_name, workshop_dis, workshop_title);
+
     const newblog = await workshop.newShop(
       workshop_name,
       workshop_dis,
       workshop_title,
       url
-    
     );
 
     return res.status(200).json(newblog.rows);
@@ -105,5 +100,5 @@ module.exports = {
   newShop,
   deleteShop,
   updateShop,
-  updatedImage
+  updatedImage,
 };
