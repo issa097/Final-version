@@ -81,9 +81,9 @@ const Side = () => {
   return (
     <>
       <Nav />
-      <div className="flex flex-wrap mt-5 ">
+      <div className="flex flex-wrap   h-full z-50">
         {/* sidebar */}
-        <div className="relative w-[260px] h-full ">
+        <div className="relative w-[260px] h-full  z-50">
           <div
             className={`peer absolute top-0 border ${position} lg:left-0 h-full w-full object-cover transition-all delay-100 duration-1000`}
           >
@@ -144,7 +144,7 @@ const Side = () => {
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
-            <aside className="flex flex-col w-64 h-[700px] px-5  overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700">
+            <aside className=" flex flex-col w-64 h-[1515px] px-5  overflow-y-auto bg-[#c08261] border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700">
               <div className="w-auto h-12 flex justify-around items-center mx-6">
                 <img
                   className={`rounded-full w-1/4 ${
@@ -209,11 +209,13 @@ const Side = () => {
                       <span className="mx-2 text-sm font-medium">Blogs</span>
                     </button>
                     <button
-                    className="w-full flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                    onClick={() => setPage("WorkShopBooking")}
-                  >
-                    <span className="mx-2 text-sm font-medium">WorkShopBooking</span>
-                  </button>
+                      className="w-full flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                      onClick={() => setPage("WorkShopBooking")}
+                    >
+                      <span className="mx-2 text-sm font-medium">
+                        WorkShopBooking
+                      </span>
+                    </button>
                   </div>
 
                   <div className="space-y-3 ">
@@ -244,7 +246,9 @@ const Side = () => {
         </div>
         {/* content */}
         <div
-          className={`${page == "UserProfile" ? "block" : "hidden"} w-full  `}
+          className={`${
+            page == "UserProfile" ? "block" : "hidden"
+          } w-full h-[80rem]   mr-20 mb-60`}
         >
           <UserProfile />
         </div>
@@ -252,14 +256,22 @@ const Side = () => {
         <div
           className={`${
             page == "WishList" ? "block" : "hidden"
-          } w-full h-[80rem]  ml-40 mr-20 mb-60`}
+          } w-full h-[80rem] ml-5  mr-20 mb-60`}
         >
           <WishList />
         </div>
-        <div className={`${page == "Blog" ? "block" : "hidden"} w-full`}>
+        <div
+          className={`${
+            page == "Blog" ? "block" : "hidden"
+          } w-full h-[80rem] ml-10   mb-60`}
+        >
           <Blogsprofile />
         </div>
-        <div className={`${page == "WorkShopBooking" ? "block" : "hidden"} w-full`}>
+        <div
+          className={`${
+            page == "WorkShopBooking" ? "block" : "hidden"
+          } w-full h-[30rem]  ml-10 mr-20 mb-60`}
+        >
           <WorkShopprofile />
         </div>
       </div>

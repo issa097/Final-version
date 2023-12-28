@@ -130,26 +130,26 @@ function WorkShopprofile() {
   //   };
 
   return (
-    <div className="flex justify-center items-center h-full ">
-      <div className="flex justify-center items-center h-full gap-2">
+    <div className="flex flex-wrap justify-center items-center h-full ">
+      <div className="flex justify-center items-center flex-wrap h-full gap-2">
         {/* Slider */}
         {/* <Slider {...settings}> */}
         {displayedworkshop.map((workshop, index) => (
           <div
             key={index}
-            className="w-72 h-96 shadow-md bg-white h-[450px] text-[#C08261] rounded-xl "
+            className="w-72  shadow-md bg-white h-[400px] text-[#C08261] rounded-xl "
           >
-            <div className="h-56 bg-[#C08261] flex justify-center items-center rounded-t-xl">
+            <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
               <img
                 src={workshop.workshop_img}
                 alt=""
-                className="h-44 w-44 rounded-full"
+                className="rounded-t-lg w-full h-40 object-cover"
               />
             </div>
 
             <div className="flex flex-col items-center justify-center gap-4 p-4">
               <p className="text-xl font-semibold">{workshop.workshop_name}</p>
-              <p className="text-center">{workshop.workshop_dis}</p>
+              {/* <p className="text-center">{workshop.workshop_dis}</p> */}
               <p className="text-center text-[#C08261]">
                 Time-start: {workshop.workshop_start} <br />
                 Time-end : {workshop.workshop_end}

@@ -311,7 +311,7 @@ function Workshops({ totalPages, pageNumber, handlePageChange }) {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mt-2">
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index + 1}

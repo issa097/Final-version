@@ -315,7 +315,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductForm from "./ProductForm";
 import AddProductForm from "./AddProduct";
-import Swal from "sweetalert2";
+import Swal from "sweetalert";
 import Statics from "./Statics";
 
 function Products() {
@@ -389,25 +389,26 @@ function Products() {
         console.log(response);
         Swal({
           title: "Success!",
-          text: `Product ${response.data[0].product_name} saved successfully.`,
+          text: `Product ${
+            response.data[0]?.product_name || ""
+          } saved successfully.`,
           icon: "success",
           confirmButtonText: "OK",
         });
         setEditingProduct(null);
       })
       .catch((error) => {
-        console.error("Error saving product:", error);
+        // console.error("Error saving product:", error);
         Swal({
-          title: "Error!",
+          title: "error!",
           text: "Failed to save the product. Please try again.",
           icon: "error",
           confirmButtonText: "OK",
         });
       });
   };
-
-  const handleDeleteProduct = (productId) => {
-    Swal.fire({
+  const handleDeleteProduct = (product_id) => {
+    Swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this product!",
       icon: "warning",
@@ -416,34 +417,32 @@ function Products() {
       cancelButtonColor: "#B31312",
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axios.put(`http://localhost:8000/deleteproduct/${productId}`);
-          Swal.fire({
-            title: "Deleted!",
-            text: "Product has been deleted successfully.",
-            icon: "success",
-            confirmButtonColor: "#C08261",
-          });
-        } catch (error) {
-          console.error("Error deleting product:", error);
-          Swal.fire({
-            title: "Error!",
-            text: "Failed to delete the product. Please try again.",
-            icon: "error",
-            confirmButtonColor: "#B31312",
-          });
-        }
+      try {
+        await axios.put(`http://localhost:8000/deleteproduct/${product_id}`);
+        Swal({
+          title: "Deleted!",
+          text: "Product has been deleted successfully.",
+          icon: "success",
+          confirmButtonColor: "#C08261",
+        });
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        Swal({
+          title: "Error!",
+          text: "Failed to delete the product. Please try again.",
+          icon: "error",
+          confirmButtonColor: "#B31312",
+        });
       }
     });
   };
-  
+
   return (
     <>
       <Statics />
       <div>
         <div className=" text-center w-full max-w-3xl mx-auto p-4">
-          <label htmlFor="product-search" className="sr-only">
+          <label htmlFor="product-search" className="sr-only text-[#C08261]">
             Search for products
           </label>
           <div className="flex items-center space-x-2 pt-5">
@@ -462,14 +461,16 @@ function Products() {
               Search
             </button>
             <button
-  className="px-3 py-1.5 bg-[#C08261] text-white rounded-lg text-sm"
-  onClick={() => setIsAddProductFormVisible(true)}
->
-  Add product
-</button>
+              className="px-3 py-1.5 bg-[#C08261] text-white rounded-lg text-sm"
+              onClick={() => setIsAddProductFormVisible(true)}
+            >
+              Add product
+            </button>
           </div>
         </div>
-        <h2 className="text-3xl font-bold pt-[3rem] text-center text-[#C08261] mb-4">Products</h2>
+        <h2 className="text-3xl font-bold pt-[3rem] text-center text-[#C08261] mb-4">
+          Products
+        </h2>
         <div className="overflow-hidden rounded-lg border border-[#C08261] shadow-md m-5 ">
           {" "}
           <div className="table-container" style={tableStyles}>
@@ -589,7 +590,7 @@ function Products() {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mt-2">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index + 1}

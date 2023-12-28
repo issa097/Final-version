@@ -6,6 +6,7 @@ const key = process.env.KEY;
 require("dotenv").config();
 // const nodemailer = require("nodemailer");
 const nodemailer = require("nodemailer");
+const Joi = require("joi");
 
 const db = require("../lib/db");
 
@@ -87,9 +88,60 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// const updatePassword = async (req, res) => {
+//   const user_id = req.user;
+//   const { currentPassword, newPassword } = req.body;
+
+//   try {
+//     const user = await User.getUserById(user_id);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(
+//       currentPassword,
+//       user.password
+//     );
+
+//     if (!isPasswordValid) {
+//       return res.status(401).json({ message: "Current password is incorrect" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+//     const result = await User.updatePassword(user_id, hashedPassword);
+
+//     return res.status(200).json(result.rows);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
+
+const updatePasswordSchema = Joi.object({
+  currentPassword: Joi.string().required(),
+  newPassword: Joi.string()
+    .pattern(
+      new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$")
+    )
+    .message(
+      "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character. Minimum length is 8 characters."
+    )
+    .required(),
+});
+
 const updatePassword = async (req, res) => {
   const user_id = req.user;
-  const { currentPassword, newPassword } = req.body;
+  const { error, value } = updatePasswordSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+
+  }
+
+
+  const { currentPassword, newPassword } = value;
 
   try {
     const user = await User.getUserById(user_id);
@@ -119,15 +171,15 @@ const updatePassword = async (req, res) => {
 };
 
 const updatePasswordmailer = async (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
+  const {  password } = req.body;
+  // console.log(email, password);
 
   try {
-    const user = await User.getEmail(email);
+    // const user = await User.getEmail(email);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    // if (!user) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
 
     // const isPasswordValid = await bcrypt.compare(
     //   user.password
@@ -139,7 +191,7 @@ const updatePasswordmailer = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const result = await User.updatePasswordd(email, hashedPassword);
+    const result = await User.updatePasswordd( hashedPassword);
 
     return res.status(200).json(result.rows);
   } catch (error) {

@@ -1,6 +1,47 @@
-// import React, { useState } from 'react';
+// // import React, { useState } from 'react';
 
-// const Counter = () => {
+// // const Counter = () => {
+// //   const [count, setCount] = useState(1);
+
+// //   const decreaseCount = () => {
+// //     if (count > 1) {
+// //       setCount(count - 1);
+// //     }
+// //   };
+
+// //   const increaseCount = () => {
+// //     setCount(count + 1);
+// //   };
+
+// //   return (
+// //     <div className="sm:order-1">
+// //       <div className="mx-auto flex h-8 items-stretch text-grey-400">
+// //         <button
+// //           className="flex items-center justify-center rounded-l-md bg-[#17403C]  px-4 transition hover:bg-[#C3CAC3]  hover:text-white"
+// //           onClick={decreaseCount}
+// //         >
+// //           -
+// //         </button>
+// //         <div className="flex w-full items-center justify-center bg-gray-100 px-4 text-xs uppercase transition">
+// //           {count}
+// //         </div>
+// //         <button
+// //           className="flex items-center justify-center rounded-r-md bg-[#17403C]  px-4 transition hover:bg-[#C3CAC3]   hover:text-white"
+// //           onClick={increaseCount}
+// //         >
+// //           +
+// //         </button>
+// //       </div>
+// //     </div>
+// //   );
+// // };
+
+// // export default Counter;
+
+// import React, { useState } from "react";
+// import axios from "axios";
+
+// const Counter = ({ cart_id ,fetchData }) => {
 //   const [count, setCount] = useState(1);
 
 //   const decreaseCount = () => {
@@ -13,12 +54,32 @@
 //     setCount(count + 1);
 //   };
 
+//   const updateCart = async () => {
+//     try {
+//       const response = await axios.put(
+//         `http://localhost:8000/updateCart/${cart_id}`,
+//         {
+//           quantity: count,
+//         }
+//       );
+//       fetchData()
+//       console.log("The cart has been updated successfully", response.data);
+
+//     } catch (error) {
+//       console.error("An error occurred while updating the cart", error);
+//     }
+
+//   };
+
 //   return (
 //     <div className="sm:order-1">
 //       <div className="mx-auto flex h-8 items-stretch text-grey-400">
 //         <button
 //           className="flex items-center justify-center rounded-l-md bg-[#17403C]  px-4 transition hover:bg-[#C3CAC3]  hover:text-white"
-//           onClick={decreaseCount}
+//           onClick={() => {
+//             decreaseCount();
+//             updateCart();
+//           }}
 //         >
 //           -
 //         </button>
@@ -27,7 +88,10 @@
 //         </div>
 //         <button
 //           className="flex items-center justify-center rounded-r-md bg-[#17403C]  px-4 transition hover:bg-[#C3CAC3]   hover:text-white"
-//           onClick={increaseCount}
+//           onClick={() => {
+//             increaseCount();
+//             updateCart();
+//           }}
 //         >
 //           +
 //         </button>
@@ -38,49 +102,55 @@
 
 // export default Counter;
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Counter = ({ cart_id ,fetchData }) => {
-  const [count, setCount] = useState(1);
+const Counter = ({ cart_id, initialQuantity, onQuantityChange ,fetchData }) => {
+  const [count, setCount] = useState(initialQuantity || 1);
+
+  useEffect(() => {
+    // Update the count if the initial quantity changes
+    setCount(initialQuantity || 1);
+  }, [initialQuantity]);
 
   const decreaseCount = () => {
     if (count > 1) {
       setCount(count - 1);
+      updateCart(count - 1);
     }
   };
 
   const increaseCount = () => {
     setCount(count + 1);
+    updateCart(count + 1);
   };
 
-  const updateCart = async () => {
+  const updateCart = async (newQuantity) => {
     try {
       const response = await axios.put(
         `http://localhost:8000/updateCart/${cart_id}`,
         {
-          quantity: count,
+          quantity: newQuantity,
         }
       );
-      fetchData()
-      console.log("The cart has been updated successfully", response.data);
 
+      console.log("The cart has been updated successfully", response.data);
+      fetchData()
+      // Notify the parent component about the quantity change
+      if (onQuantityChange) {
+        onQuantityChange(newQuantity);
+      }
     } catch (error) {
       console.error("An error occurred while updating the cart", error);
     }
-    
-
   };
 
   return (
     <div className="sm:order-1">
       <div className="mx-auto flex h-8 items-stretch text-grey-400">
         <button
-          className="flex items-center justify-center rounded-l-md bg-[#17403C]  px-4 transition hover:bg-[#C3CAC3]  hover:text-white"
-          onClick={() => {
-            decreaseCount();
-            updateCart();
-          }}
+          className="flex items-center justify-center rounded-l-md bg-[#C08261] px-4 transition hover:text-white"
+          onClick={decreaseCount}
         >
           -
         </button>
@@ -88,11 +158,8 @@ const Counter = ({ cart_id ,fetchData }) => {
           {count}
         </div>
         <button
-          className="flex items-center justify-center rounded-r-md bg-[#17403C]  px-4 transition hover:bg-[#C3CAC3]   hover:text-white"
-          onClick={() => {
-            increaseCount();
-            updateCart();
-          }}
+          className="flex items-center justify-center rounded-r-md bg-[#C08261] px-4 transition hover:text-white"
+          onClick={increaseCount}
         >
           +
         </button>

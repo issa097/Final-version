@@ -36,19 +36,19 @@ const Blogs = () => {
   }
 
   return (
-    <section className="flex justify-center items-center">
+    <section className="flex justify-center items-center mr-10">
       <div className=" mt-4"></div>
-      <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-4 sm:px-8 md:grid-cols-3">
+      <div className=" sm:grid  sm:justify-center sm:ml-0 lg:flex justify-center gap-4 lg:ml-20 ">
         {blog &&
           blog.map((blogs) => (
             <article
               key={blogs.blog_id}
-              className="mx-auto my-4 flex w-full flex-col overflow-hidden rounded-2xl border border-gray-300 bg-white text-[#C08261] transition hover:translate-y-2 hover:shadow-lg"
+              className="mx-auto my-4 flex h-[400px] flex-col overflow-hidden rounded-2xl border border-gray-300 bg-white text-[#C08261] transition hover:translate-y-2 hover:shadow-lg"
             >
               <a href="#">
                 <img
                   src={blogs.blog_img}
-                  className="h-56 w-full object-cover"
+                  className="h-40 w-full object-cover"
                   alt=""
                 />
                 <div className="flex-auto px-6 py-5">
@@ -78,9 +78,9 @@ const Blogs = () => {
                     {blogs.title}
                   </h3>
                   <p className="mb-4 text-base font-light">{blogs.content}</p>
-                  <span className="inline-block cursor-pointer select-none rounded-full border border-[#C08261] bg-[#C08261] px-2 py-1 text-center align-middle text-sm font-semibold leading-normal text-white no-underline shadow-sm">
+                  {/* <span className="inline-block cursor-pointer select-none rounded-full border border-[#C08261] bg-[#C08261] px-2 py-1 text-center align-middle text-sm font-semibold leading-normal text-white no-underline shadow-sm">
                     Learn More
-                  </span>
+                  </span> */}
                 </div>
               </a>
             </article>

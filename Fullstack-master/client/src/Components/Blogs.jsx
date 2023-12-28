@@ -116,9 +116,9 @@ const Blogs = () => {
                   {blogs.title}
                 </h3>
                 <p className="mb-4 text-base font-light">{blogs.content}</p>
-                <span className="inline-block cursor-pointer select-none border border-[#C08261] bg-[#C08261] px-2 py-1 text-center align-middle text-sm font-semibold leading-normal text-white no-underline shadow-sm">
+                {/* <span className="inline-block cursor-pointer select-none border border-[#C08261] bg-[#C08261] px-2 py-1 text-center align-middle text-sm font-semibold leading-normal text-white no-underline shadow-sm">
                   Read More
-                </span>
+                </span> */}
               </div>
             </Link>
           </article>

@@ -89,13 +89,13 @@ function Blog() {
     <>
       {" "}
       <Statics />
-      <h2 className="text-3xl font-bold pt-[7rem] text-center mb-4">Blog</h2>
+      <h2 className="text-3xl font-bold text-[#C08261] pt-[7rem] text-center mb-4">Blog</h2>
       <div className=" ">
         <div className="overflow-hidden rounded-lg border border-[#C08261] shadow-md m-5 ">
           {" "}
           {/* ml-80 */}
           <div className="table-container" style={tableStyles}>
-            <table className="text-center w-full border-collapse bg-white text-left text-sm text-gray-500">
+            <table className="text-center w-full border-collapse bg-white  text-sm text-gray-500">
               <thead className=" bg-[#C08261]  ">
                 <tr className=" ">
                   <th

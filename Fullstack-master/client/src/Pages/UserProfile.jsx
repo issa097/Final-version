@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-
+import Swal from "sweetalert";
 export const setLocalStorage = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
@@ -114,8 +114,6 @@ const UserProfile = () => {
   const handleSaveChanges = async (e) => {
     e.preventDefault();
     if (!error) {
-      
-
       try {
         // console.log(updatedUser);
         axios.defaults.headers.common[
@@ -123,8 +121,7 @@ const UserProfile = () => {
         ] = `${localStorage.getItem("token")}`;
         const response = await axios.put(
           `http://localhost:8000/updateuser`,
-          formValues,
-         
+          formValues
         );
         console.log("Server Response:", response.data[0]);
         setSuccessMessage("Profile updated successfully!");
@@ -152,7 +149,7 @@ const UserProfile = () => {
           updatedImage
         );
         console.log("Server Response:", response.data[0]);
-        setSuccessMessage("Profile updated successfully!");
+        setSuccessMessage("Profile Image updated successfully!");
       } catch (error) {
         console.error("Error updating Information", error);
         setSuccessMessage("");
@@ -192,21 +189,29 @@ const UserProfile = () => {
           },
         }
       );
-
+      console.log(response.error, "lololo");
       setSuccessMessage("Password updated successfully!");
-      setErrorMessage("");
+      setErrorMessage(response.error);
     } catch (error) {
-      console.error(
-        "Error updating password:",
-        error.response?.data || error.message
-      );
+      Swal({
+        icon: "error",
+        title: "Login Failed!",
+        text: `${errorMessage}`,
+        confirmButtonColor: "#d33",
+      });
+      // console.error(
+      //   "Error updating password:",
+      //   // error.response?.data || error.message
+      //   error.response.message
+
+      // );
       setSuccessMessage("");
       setErrorMessage("Failed to update password. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-full min-w-full bg-gray-100 flex justify-center  items-center">
+    <div className="min-h-full min-w-full  flex justify-center  ">
       <div className="w-[40rem] min-h-[10rem] bg-white p-8 rounded-md shadow-md">
         <form className="space-y-4" onSubmit={handleSaveChanges}>
           <div className="text-center">
@@ -302,7 +307,7 @@ const UserProfile = () => {
           <div className="flex justify-end space-x-4">
             <button
               type="button"
-              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
+              className="px-4 py-2 text-center bg-red-500 hover:bg-red-600 text-white rounded-md"
               // onClick={handleCancel}
             >
               Cancel

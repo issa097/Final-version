@@ -26,22 +26,22 @@ const WishList = () => {
       const selectedProduct = wishlist.find(
         (product) => product.product_id === productId
       );
-  
+
       if (selectedProduct) {
         const newCart = [...cart, selectedProduct];
         setCart(newCart);
-        localStorage.setItem('cart', JSON.stringify(newCart));
-  
-        console.log('Item added to cart:', selectedProduct);
+        localStorage.setItem("cart", JSON.stringify(newCart));
+
+        console.log("Item added to cart:", selectedProduct);
       } else {
-        console.error('Product not found with ID:', productId);
+        console.error("Product not found with ID:", productId);
       }
     } catch (error) {
-      console.error('Error adding item to cart:', error);
+      console.error("Error adding item to cart:", error);
     }
   };
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="sm:grid  sm:justify-center sm:ml-0 lg:flex justify-center gap-4 lg:ml-20 pt-10 ">
       {wishlist.map((product) => (
         <div
           key={product.product_id}
@@ -53,7 +53,9 @@ const WishList = () => {
             alt="Product"
           />
           <div className="px-5 py-3 space-y-2 flex flex-col justify-between h-48">
-            <h3 className="text-md overflow-ellipsis overflow-hidden whitespace-nowrap">{product.product_name}</h3>
+            <h3 className="text-md overflow-ellipsis overflow-hidden whitespace-nowrap">
+              {product.product_name}
+            </h3>
             <p className="text-2xl font-semibold">{`${product.price} JOD`}</p>
             <div className="flex justify-between items-center pt-3 pb-2">
               <button

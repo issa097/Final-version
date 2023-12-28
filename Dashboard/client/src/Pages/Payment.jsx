@@ -69,7 +69,7 @@ function Payment() {
     <arguments>
       <br />
       <Statics />
-      <h2 className="text-3xl font-bold pt-[3rem] text-center mb-4">Payment</h2>
+      <h2 className="text-3xl font-bold pt-[3rem] text-[#C08261] text-center mb-4">Payment</h2>
       <div className="p-4">
         <div className="overflow-hidden rounded-lg border border-[#C08261] shadow-md  ">
           <div className="table-container " style={tableStyles}>
